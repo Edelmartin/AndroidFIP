@@ -42,6 +42,8 @@ import javax.xml.transform.stream.StreamResult;
 
 public class MainActivity extends AppCompatActivity {
 
+    //test
+
     private static ArrayList<String> groupNameList = new ArrayList<String> ();
     private String groupXMLFile = "group.xml";
     private ListView groupNameListView = null;

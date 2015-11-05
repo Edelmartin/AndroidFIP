@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".GroupActivity">
+    <item android:id="@+id/action_addMember" android:title="Ajouter un membre"
+        android:orderInCategory="1"
+        android:icon="@mipmap/ic_add_member"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_addTransaction" android:title="Ajouter une transaction"
+        android:orderInCategory="2"
+        android:icon="@mipmap/ic_add_transaction"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_deleteMember" android:title="Supprimer un membre"
+        android:orderInCategory="3"
+        android:icon="@mipmap/ic_delete_member"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_deleteTransaction" android:title="Supprimer une transaction"
+        android:orderInCategory="4"
+        android:icon="@mipmap/ic_delete_transaction"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_deleteGroup" android:title="Supprimer le groupe"
+        android:orderInCategory="5"
+        android:icon="@mipmap/ic_delete_group"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_balanceAccount" android:title="Faire les comptes"
+        android:orderInCategory="6"
+        android:icon="@mipmap/ic_balance_account"
+        app:showAsAction="ifRoom" />
+</menu>

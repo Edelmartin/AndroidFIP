@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">App_test</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_add_group">AddGroupActivity</string>
+    <string name="title_activity_group">GroupActivity</string>
+    <string name="title_activity_add_new_member_in_group">AddNewMemberInGroupActivity</string>
+    <string name="title_activity_delete_member_in_group">DeleteMemberInGroupActivity</string>
+    <string name="title_activity_add_new_transaction">AddNewTransactionActivity</string>
+    <string name="title_activity_delete_transaction">DeleteTransactionActivity</string>
+    <string name="title_activity_balance_account">BalanceAccountActivity</string>
+</resources>

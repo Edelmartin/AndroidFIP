@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //called method for shake event
     private void handleShakeEvent(int count) {
-        Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddNewTransactionActivity.class);
         startActivity(intent);
     }
     @Override

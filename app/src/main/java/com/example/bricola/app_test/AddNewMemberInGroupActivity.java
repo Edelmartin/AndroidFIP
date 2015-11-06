@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -17,9 +18,12 @@ import java.util.ArrayList;
 public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
     private Button addNewMemberInGroupButton = null;
+    private Button addNewMemberButton = null;
+    private Button deleteMemberButton = null;
     private EditText memberNameEditText = null;
     private String groupName = null;
     private static XMLManipulator groupXMLManipulator;
+    private LinearLayout memberNameLinearLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         memberNameEditText = (EditText) findViewById(R.id.memberName_editText);
+        memberNameLinearLayout = (LinearLayout) findViewById(R.id.memberName_linearLayout);
 
         Bundle extras = getIntent().getExtras();
         groupName = extras.getString("groupName");
@@ -38,24 +43,58 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         addNewMemberInGroupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //Verification du contenu des EditText qui ne doivent pas être vides
-                RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.contentAddNewMemberInGroup);
-                for (int i = 0; i < mRlayout.getChildCount(); i++)
-                    if (mRlayout.getChildAt(i) instanceof EditText) {
-                        EditText myEditText = (EditText) mRlayout.getChildAt(i);
-                        if (myEditText.getText().toString().matches("")) {
+                //Verification du contenu des noms des membres
+                for (int i = 0; i < memberNameLinearLayout.getChildCount(); i++)
+                    if (memberNameLinearLayout.getChildAt(i) instanceof EditText) {
+                        EditText myEditText = (EditText) memberNameLinearLayout.getChildAt(i);
+                        if (myEditText.getText().toString().matches(""))
+                        {
                             Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
-                String newMemberName = memberNameEditText.getText().toString();
-                groupXMLManipulator = new XMLManipulator(getApplicationContext());
-                groupXMLManipulator.addNewMemberInGroup(groupName, newMemberName);
 
-                //Retour a la fenetre du group en envoyant le nom du nouveau membrer en extra
+                groupXMLManipulator = new XMLManipulator(getApplicationContext());
+                ArrayList<String> memberNameList = new ArrayList<String>();
+                for (int i = 0; i < memberNameLinearLayout.getChildCount(); i++)
+                    if (memberNameLinearLayout.getChildAt(i) instanceof EditText) {
+                        String str = ((EditText) memberNameLinearLayout.getChildAt(i)).getText().toString();
+                        groupXMLManipulator.addNewMemberInGroup(groupName, str);
+                        memberNameList.add(str);
+                    }
+
+                //Retour a la fenetre du group
                 Intent intent = new Intent(AddNewMemberInGroupActivity.this, GroupActivity.class);
                 intent.putExtra("groupName", groupName);
                 startActivity(intent);
+            }
+        });
+
+        addNewMemberButton = (Button) findViewById(R.id.addNewMember_button);
+        addNewMemberButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (memberNameLinearLayout.getChildCount() == 1) {
+                    deleteMemberButton.setEnabled(true);
+                }
+                if (memberNameLinearLayout.getChildCount() >= 1) {
+                    EditText memberName = (EditText) getLayoutInflater().inflate(R.layout.newedittextstyle, null);
+                    memberNameLinearLayout.addView(memberName);
+                }
+            }
+        });
+
+        deleteMemberButton = (Button) findViewById(R.id.deleteMember_button);
+        deleteMemberButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (memberNameLinearLayout.getChildCount() == 2)
+                {
+                    deleteMemberButton.setEnabled(false);
+
+                }
+                if (memberNameLinearLayout.getChildCount() > 1)
+                {
+                    memberNameLinearLayout.removeViewAt(memberNameLinearLayout.getChildCount() - 1);
+                }
             }
         });
     }

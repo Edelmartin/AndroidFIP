@@ -37,7 +37,7 @@ public class Calculator {
         //Création des transaction de remboursement pour équilibrer les dépenses
         for (int i = 0 ; i < numberOfMember ; i++)
         {
-            while (!memberList.get(i).isOk(averageTransactionAmount))
+            while (!memberList.get(i).isOk(averageTransactionAmount, numberOfMember))
             {
                 if (memberList.get(i).isUnder(averageTransactionAmount))
                 {

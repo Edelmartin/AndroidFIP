@@ -35,11 +35,13 @@ public class Member {
         totalTransaction = number.doubleValue();
     }
 
-    public Boolean isOk(Double averageTransactionAmount) throws ParseException {
-        number = format.parse(df.format(averageTransactionAmount + 0.01));
+    public Boolean isOk(Double averageTransactionAmount, Integer numberOfMember) throws ParseException {
+        //Limite dynamique = (1 centime) x (Nb Participants)
+        Double limitdynamic = 0.01 * numberOfMember;
+        number = format.parse(df.format(averageTransactionAmount + limitdynamic));
         Double topLimit = number.doubleValue();
 
-        number = format.parse(df.format(averageTransactionAmount - 0.01));
+        number = format.parse(df.format(averageTransactionAmount - limitdynamic));
         Double bottomLimit = number.doubleValue();
 
         if ((totalTransaction <= topLimit) && (totalTransaction >= bottomLimit))

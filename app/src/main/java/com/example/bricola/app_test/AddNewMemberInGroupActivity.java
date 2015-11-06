@@ -1,11 +1,14 @@
 package com.example.bricola.app_test;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.telephony.TelephonyManager;
 
 import java.util.ArrayList;
 
@@ -81,7 +85,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         addNewMemberRepertory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(Intent.ACTION_PICK, Contacts.People.CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);//Contacts.People.CONTENT_URI);
                 startActivityForResult(intent, PICK_CONTACT);
             }
         });
@@ -121,11 +125,26 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             case (PICK_CONTACT):
                 if (resultCode == Activity.RESULT_OK) {
                     Uri contactData = data.getData();
-                    Cursor c = managedQuery(contactData, null, null, null, null);
-                    if (c.moveToFirst()) {
+                    ContentResolver cr = getContentResolver();
+                    Cursor c = getContentResolver().query(contactData, null, null, null, null);
+                   /* if (c.moveToFirst()) {
                         String id =
-                                c.getString(c.getColumnIndexOrThrow(Contacts.People.NAME));
+                                c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));//Contacts.People.NAME));
                         memberNameEditText.setText(id);
+                    }*/
+
+                    while (c.moveToNext()) {
+                        String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
+
+                        String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        if (Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                            Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+
+                            while (pCur.moveToNext()) {
+                                String phone = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                memberNameEditText.setText(name + "   " + phone);
+                            }
+                        }
                     }
                 }
                 break;

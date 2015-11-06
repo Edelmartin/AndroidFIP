@@ -2,8 +2,11 @@ package com.example.bricola.app_test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
+    private MediaPlayer player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,8 +159,9 @@ public class MainActivity extends AppCompatActivity {
     }
     //called method for shake event
     private void handleShakeEvent(int count) {
-        Intent intent = new Intent(MainActivity.this, AddNewTransactionActivity.class);
-        startActivity(intent);
+        MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.money);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
     }
     @Override
 

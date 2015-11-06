@@ -1,7 +1,11 @@
 package com.example.bricola.app_test;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +21,11 @@ import java.util.ArrayList;
 
 public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
+    public static final int PICK_CONTACT    = 1;
+
     private Button addNewMemberInGroupButton = null;
     private Button addNewMemberButton = null;
+    private Button addNewMemberRepertory = null;
     private Button deleteMemberButton = null;
     private EditText memberNameEditText = null;
     private String groupName = null;
@@ -70,6 +77,15 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             }
         });
 
+        addNewMemberRepertory = (Button) findViewById(R.id.add_repertory_name);
+        addNewMemberRepertory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(Intent.ACTION_PICK, Contacts.People.CONTENT_URI);
+                startActivityForResult(intent, PICK_CONTACT);
+            }
+        });
+
         addNewMemberButton = (Button) findViewById(R.id.addNewMember_button);
         addNewMemberButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -98,5 +114,21 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+        switch (reqCode) {
+            case (PICK_CONTACT):
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri contactData = data.getData();
+                    Cursor c = managedQuery(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        String id =
+                                c.getString(c.getColumnIndexOrThrow(Contacts.People.NAME));
+                        memberNameEditText.setText(id);
+                    }
+                }
+                break;
+        }
+    }
 }

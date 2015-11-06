@@ -84,6 +84,12 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView6"
             android:layout_alignEnd="@+id/textView6" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recherche Repertoire"
+            android:id="@+id/add_repertory_name" />
     </LinearLayout>
 
 </RelativeLayout>

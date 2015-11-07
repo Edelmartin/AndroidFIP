@@ -162,6 +162,14 @@ public class MainActivity extends AppCompatActivity {
         MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.money);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            public void onCompletion(MediaPlayer arg0) {
+                Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
+                startActivity(intent);
+            }
+
+        });
     }
     @Override
 

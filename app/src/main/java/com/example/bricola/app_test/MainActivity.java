@@ -91,21 +91,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (savedInstanceState == null)
-        {
-            Bundle extras = getIntent().getExtras();
-            if(extras != null) {
-                if (getIntent().hasExtra("groupName"))
-                    try {
-                        ArrayList<String> NewGroupMemberNameList = new ArrayList<String>();
-                        NewGroupMemberNameList = extras.getStringArrayList("memberList");
-                        groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
-                        groupXMLManipulator.addNewGroupWithMember(extras.getString("groupName"), NewGroupMemberNameList);
-                    } catch (IOException | XmlPullParserException e) {
-                        e.printStackTrace();
-                    }
-            }
-        }
         //Lecture des groupes du fichier group.xml
         try {
             groupXMLManipulator = new XMLManipulator(this.getApplicationContext());

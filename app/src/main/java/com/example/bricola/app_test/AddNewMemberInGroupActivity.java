@@ -126,6 +126,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     Uri contactData = data.getData();
                     ContentResolver cr = getContentResolver();
+                    ContentResolver crmail = getContentResolver();
                     Cursor c = getContentResolver().query(contactData, null, null, null, null);
                    /* if (c.moveToFirst()) {
                         String id =
@@ -135,14 +136,21 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
                     while (c.moveToNext()) {
                         String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
-
                         String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
                         if (Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                             Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
 
                             while (pCur.moveToNext()) {
                                 String phone = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 memberNameEditText.setText(name + "   " + phone);
+                            }
+                        }
+                        else {
+                            Cursor pCurmail = crmail.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,null,ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",new String[]{id},null);
+                            while (pCurmail.moveToNext()) {
+                                String mail = pCurmail.getString(pCurmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                                memberNameEditText.setText(name + "   " + mail);
                             }
                         }
                     }

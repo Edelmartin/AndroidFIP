@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
     private static ArrayList<String> valuesList = new ArrayList<String>();
     private static String groupName;
     private static LinearLayout linearLayoutVert;
+    private static Button messageSender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
             colon.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(colon);
 
-            //Valer à trasnférer
+            //Valeur à transférer
             TextView valueTextView = new TextView(this);
             valueTextView.setText(valuesList.get(i) + " €");
             valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -79,8 +82,16 @@ public class BalanceAccountActivity extends AppCompatActivity {
             linearLayoutHor.addView(valueTextView);
 
             linearLayoutVert.addView(linearLayoutHor);
+
         }
 
+        messageSender = (Button) findViewById(R.id.MessageSender);
+        messageSender.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SendMail mail= new SendMail("Salut à tous, voici les comptes de ces vacances:","christnachern@aol.com","comtpes");
+                SendSMS sms= new SendSMS("0635489383", "Salut à tous, voici les comptes de ces vacances:");
+            }
+        });
     }
 
 }

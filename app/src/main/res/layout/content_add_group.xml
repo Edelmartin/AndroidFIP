@@ -10,129 +10,133 @@
     tools:showIn="@layout/activity_add_group"
     tools:context="com.example.bricola.app_test.AddGroupActivity"
     android:id="@+id/contentAddGroupLayout">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000"
-            android:text="Nom du groupe:"
-            android:id="@+id/textView13"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/groupName_editText"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/textView13"
-            android:layout_alignParentLeft="true"
-            android:paddingBottom="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000"
-            android:text="Nouveau(x) membre(s):"
-            android:id="@+id/textView14"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/groupName_editText"
-            android:layout_alignParentLeft="true"
-            android:paddingBottom="10dp" />
-
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/newMember_linearLayout" >
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:nestedScrollingEnabled="false">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:text="Nom du groupe:"
+                android:id="@+id/textView13"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/groupName_editText"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/textView13"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:text="Nouveau(x) membre(s):"
+                android:id="@+id/textView14"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/groupName_editText"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="10dp" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="10dp"
-                android:id="@+id/newMemberNameNumber_linearLayout">
+                android:layout_height="wrap_content"
+                android:id="@+id/newMember_linearLayout" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Nom:"
-                    android:id="@+id/textView" />
-
-                <EditText
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/memberName_editText"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/textView14"
-                    android:layout_alignParentEnd="true"
-                    android:password="false" />
+                    android:layout_height="match_parent"
+                    android:paddingBottom="10dp"
+                    android:id="@+id/newMemberNameNumber_linearLayout">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Numéro de téléphone:"
-                    android:id="@+id/textView2" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Nom:"
+                        android:id="@+id/textView" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:ems="10"
-                    android:id="@+id/editText" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:ems="10"
+                        android:id="@+id/memberName_editText"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/textView14"
+                        android:layout_alignParentEnd="true"
+                        android:password="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Numéro de téléphone:"
+                        android:id="@+id/textView2" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:ems="10"
+                        android:id="@+id/editText" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp">
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:id="@+id/addNewMember_button"
+                    android:layout_below="@+id/memberName_editText"
+                    android:layout_alignParentStart="true" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:id="@+id/deleteMember_button"
+                    android:layout_below="@+id/memberName_editText"
+                    android:layout_alignParentStart="true"
+                    android:enabled="false" />
+            </LinearLayout>
 
             <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="+"
-                android:id="@+id/addNewMember_button"
-                android:layout_below="@+id/memberName_editText"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:id="@+id/deleteMember_button"
-                android:layout_below="@+id/memberName_editText"
+                android:text="ajouter le groupe"
+                android:id="@+id/addNewGroup_button"
+                android:layout_below="@+id/addNewMember_button"
                 android:layout_alignParentStart="true"
-                android:enabled="false" />
+                android:layout_alignEnd="@+id/groupName_editText" />
         </LinearLayout>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ajouter le groupe"
-            android:id="@+id/addNewGroup_button"
-            android:layout_below="@+id/addNewMember_button"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/groupName_editText" />
-    </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

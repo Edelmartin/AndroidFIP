@@ -40,11 +40,7 @@ public class DeleteMemberInGroupActivity extends AppCompatActivity {
 
         memberNameSpinner = (Spinner) findViewById(R.id.memberName_spinner);
         groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
-        try {
-            listOfMember = groupXMLManipulator.getListMemberOfGroup(groupName);
-        } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-        }
+        listOfMember = groupXMLManipulator.getListMemberOfGroup(groupName);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, listOfMember);
         memberNameSpinner.setAdapter(adapter);

@@ -108,6 +108,45 @@ public class XMLManipulator {
             e.printStackTrace();
         }
     }
+    public void addNewGroupWithMember (String groupName, ArrayList<String> listMemberName, ArrayList<String> listMemberContact) throws IllegalArgumentException, IllegalStateException, IOException, XmlPullParserException {
+
+        try {
+            //Ouverture du fichier group.xml
+            File fXmlFile = getGroupXMLFile();
+            Document doc = getGroupXMLDocument(fXmlFile);
+
+            //Création du nouveau groupe à rajouter
+            Element groupElement = doc.createElement("group");
+            groupElement.setAttribute("name", groupName);
+
+            //Ajout du nouveau groupe comme noeud enfant au noeud groups
+            NodeList listOfGroups = doc.getElementsByTagName("groups");
+            listOfGroups.item(0).appendChild(groupElement);
+
+            //Ajout du noeud members au group créé
+            Element membersElement = doc.createElement("members");
+            groupElement.appendChild(membersElement);
+            //Ajout du noeud transactions au group créé
+            Element transactionsElement = doc.createElement("transactions");
+            groupElement.appendChild(transactionsElement);
+
+            //Ajout des membres comme noeud enfant au noeud members
+            //for (String name : listMemberName)
+            for (int i = 0 ; i < listMemberName.size() ; i++)
+            {
+                Element memberNode = doc.createElement("member");
+                memberNode.setAttribute("name", listMemberName.get(i));
+                memberNode.setAttribute("contact" , listMemberContact.get(i));
+                membersElement.appendChild(memberNode);
+            }
+
+            //Enregistrement des modifications
+            saveGroupXMLFileModifications(fXmlFile, doc);
+
+        } catch (ParserConfigurationException | TransformerException | SAXException e) {
+            e.printStackTrace();
+        }
+    }
     public void addNewMemberInGroup (String groupName, String memberName) {
 
         try {
@@ -119,6 +158,28 @@ public class XMLManipulator {
             Node membersNode = getMembersNode(doc, groupName);
             Element memberNode = doc.createElement("member");
             memberNode.setAttribute("name", memberName);
+            membersNode.appendChild(memberNode);
+
+            //Enregistrement des modifications
+            saveGroupXMLFileModifications(fXmlFile, doc);
+
+        } catch (ParserConfigurationException | TransformerException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void addNewMemberInGroup (String groupName, String memberName, String memberContact) {
+
+        try {
+            //Ouverture du fichier group.xml
+            File fXmlFile = getGroupXMLFile();
+            Document doc = getGroupXMLDocument(fXmlFile);
+
+            //Ajout du member au group
+            Node membersNode = getMembersNode(doc, groupName);
+            Element memberNode = doc.createElement("member");
+            memberNode.setAttribute("name", memberName);
+            memberNode.setAttribute("contact" , memberContact);
             membersNode.appendChild(memberNode);
 
             //Enregistrement des modifications
@@ -241,6 +302,25 @@ public class XMLManipulator {
             NamedNodeMap memberNodeAttributes = memberNode.getAttributes();
             Node memberNodeAttribute = memberNodeAttributes.getNamedItem("name");
             memberNodeAttribute.setTextContent(newMemberName);
+
+            //Enregistrement des modifications
+            saveGroupXMLFileModifications(fXmlFile, doc);
+
+        } catch (ParserConfigurationException | TransformerException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void modifyMemberContact (String groupName, String memberName, String newMemberContact) {
+        try {
+            //Ouverture du fichier group.xml
+            File fXmlFile = getGroupXMLFile();
+            Document doc = getGroupXMLDocument(fXmlFile);
+
+            //Modification du numero du com.example.bricola.app_test.Member
+            Node memberNode = getMemberNode(doc, groupName, memberName);
+            NamedNodeMap memberNodeAttributes = memberNode.getAttributes();
+            Node memberNodeAttribute = memberNodeAttributes.getNamedItem("contact");
+            memberNodeAttribute.setTextContent(newMemberContact);
 
             //Enregistrement des modifications
             saveGroupXMLFileModifications(fXmlFile, doc);
@@ -377,7 +457,7 @@ public class XMLManipulator {
         }
         return listGroup;
     }
-    public ArrayList<String> getListMemberOfGroup (String groupName) throws IOException, XmlPullParserException {
+    public ArrayList<String> getListMemberOfGroup (String groupName) {
         ArrayList<String> listMemberOfGroup = new ArrayList<String>();
         try {
             //Ouverture du fichier group.xml
@@ -389,10 +469,27 @@ public class XMLManipulator {
             for (int temp = 0; temp < listOfMember.getLength(); temp++) {
                 listMemberOfGroup.add(listOfMember.item(temp).getAttributes().getNamedItem("name").getNodeValue());
             }
-        } catch (ParserConfigurationException | SAXException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
         return listMemberOfGroup;
+    }
+    public ArrayList<String> getListMemberContact (String groupName) {
+        ArrayList<String> listMemberContactOfGroup = new ArrayList<String>();
+        try {
+            //Ouverture du fichier group.xml
+            File fXmlFile = getGroupXMLFile();
+            Document doc = getGroupXMLDocument(fXmlFile);
+
+            Node membersNode = getMembersNode(doc, groupName);
+            NodeList listOfMember = membersNode.getChildNodes();
+            for (int temp = 0; temp < listOfMember.getLength(); temp++) {
+                listMemberContactOfGroup.add(listOfMember.item(temp).getAttributes().getNamedItem("contact").getNodeValue());
+            }
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+        return listMemberContactOfGroup;
     }
     public ArrayList<Transaction> getListTransactionOfGroup (String groupName) {
         ArrayList<Transaction> listTransactionOfGroup = new ArrayList<Transaction>();
@@ -461,8 +558,7 @@ public class XMLManipulator {
         Transaction transaction = new Transaction(transactionName, transactionOwner, transactionValue, transactionDate);
         return transaction;
     }
-    public Double getTotalTransactionAmountOfMember(String groupName, String memberName)
-    {
+    public Double getTotalTransactionAmountOfMember(String groupName, String memberName) {
         Double totalTransactionAmount = 0.0;
         try {
             //Ouverture du fichier group.xml
@@ -484,8 +580,7 @@ public class XMLManipulator {
         }
         return totalTransactionAmount;
     }
-    public Integer getNumberOfMember(String groupName)
-    {
+    public Integer getNumberOfMember(String groupName) {
         Integer numberOfMember = 0;
         try {
             //Ouverture du fichier group.xml

@@ -47,19 +47,15 @@ public class AddNewTransactionActivity extends AppCompatActivity {
         this.setTitle(groupName);
 
         transactionNameEditText = (EditText) findViewById(R.id.transactionName_editText);
+
         transactionOwnerSpinner = (Spinner) findViewById(R.id.transactionOwner_spinner);
         transactionValueEditText = (EditText) findViewById(R.id.transactionValue_editText);
         transactionDateDatePicker = (DatePicker) findViewById(R.id.transactionDate_datePicker);
         addNewTransactionButton = (Button) findViewById(R.id.addNewTransaction_button);
 
         groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
-        try {
-            listOfMember = groupXMLManipulator.getListMemberOfGroup(groupName);
-        } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, listOfMember);
+        listOfMember = groupXMLManipulator.getListMemberOfGroup(groupName);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, listOfMember);
         transactionOwnerSpinner.setAdapter(adapter);
 
         addNewTransactionButton.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +80,7 @@ public class AddNewTransactionActivity extends AppCompatActivity {
 
                 Integer day = transactionDateDatePicker.getDayOfMonth();
                 Integer month = transactionDateDatePicker.getMonth() + 1;
-                Integer year =  transactionDateDatePicker.getYear();
+                Integer year = transactionDateDatePicker.getYear();
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 Date transactionDate = null;
                 try {
@@ -102,6 +98,7 @@ public class AddNewTransactionActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.transactionName_editText).requestFocus();
     }
 
     public String checkDigit(int number)

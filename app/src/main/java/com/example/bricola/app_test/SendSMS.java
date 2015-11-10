@@ -11,12 +11,9 @@ public class SendSMS {
     private String num;
 
     public SendSMS(String _num, String _msg){
-
         num = _num;
         msg = _msg;
         SmsManager manager = SmsManager.getDefault();
         manager.sendTextMessage(num , null, msg, null, null);
         }
-
-
 }

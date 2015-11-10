@@ -34,6 +34,8 @@ public class BalanceAccountActivity extends AppCompatActivity {
         receiverNamesList = extras.getStringArrayList("receiverNames");
         donatorNamesList = extras.getStringArrayList("donatorNames");
         valuesList = extras.getStringArrayList("values");
+        String message="Bonjour à tous,\nVous trouverez ci dessous les comptes calculer automatiquement" +
+                "à l'aide de l'application GroupeAcountCompa;
 
         this.setTitle(groupName);
 
@@ -52,6 +54,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
             debtorNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             debtorNameTextView.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(debtorNameTextView);
+            message=message+donatorNamesList.get(i);
 
             //Fleche
             TextView arrow = new TextView(this);
@@ -59,6 +62,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
             arrow.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             arrow.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(arrow);
+            message=message+" paie à ";
 
             //Nom du receveur
             TextView creditorNameTextView = new TextView(this);
@@ -66,6 +70,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
             creditorNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             creditorNameTextView.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(creditorNameTextView);
+            message=message+receiverNamesList.get(i);
 
             //Double point
             TextView colon = new TextView(this);
@@ -73,6 +78,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
             colon.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             colon.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(colon);
+            message=message+"\t:\t";
 
             //Valeur à transférer
             TextView valueTextView = new TextView(this);
@@ -80,6 +86,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
             valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             valueTextView.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(valueTextView);
+            message=message+valuesList.get(i) + " €\n";
 
             linearLayoutVert.addView(linearLayoutHor);
 
@@ -88,8 +95,8 @@ public class BalanceAccountActivity extends AppCompatActivity {
         messageSender = (Button) findViewById(R.id.MessageSender);
         messageSender.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                SendMail mail= new SendMail("Salut à tous, voici les comptes de ces vacances:","christnachern@aol.com","comtpes");
-                SendSMS sms= new SendSMS("0635489383", "Salut à tous, voici les comptes de ces vacances:");
+                SendMail mail= new SendMail(message,"christnachern@aol.com","comtpes");
+                SendSMS sms= new SendSMS("0635489383",message);
             }
         });
     }

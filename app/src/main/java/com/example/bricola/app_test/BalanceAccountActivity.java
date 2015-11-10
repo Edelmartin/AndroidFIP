@@ -21,7 +21,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
     private static String groupName;
     private static LinearLayout linearLayoutVert;
     private static Button messageSender;
-
+    public String message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +34,8 @@ public class BalanceAccountActivity extends AppCompatActivity {
         receiverNamesList = extras.getStringArrayList("receiverNames");
         donatorNamesList = extras.getStringArrayList("donatorNames");
         valuesList = extras.getStringArrayList("values");
-        String message="Bonjour à tous,\nVous trouverez ci dessous les comptes calculer automatiquement" +
-                "à l'aide de l'application GroupeAcountCompa;
+        message ="Bonjour à tous,\nVous trouverez ci dessous les comptes calculer automatiquement" +
+                "à l'aide de l'application GroupeAcountCompa";
 
         this.setTitle(groupName);
 

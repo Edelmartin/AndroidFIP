@@ -15,8 +15,8 @@ public class SendSMS {
         msg = _msg;
 
         //changement de méthode, sans constructeur
-       /* SmsManager manager = SmsManager.getDefault();
-        manager.sendTextMessage(num , null, msg, null, null); */
-        SmsManager.getDefault().sendTextMessage(num, null, msg, null, null);
-        }
+        SmsManager manager = SmsManager.getDefault();
+        manager.sendTextMessage(num , null, msg, null, null);
+        //SmsManager.getDefault().sendTextMessage(num, null, msg, null, null);
+    }
 }

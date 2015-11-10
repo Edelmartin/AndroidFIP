@@ -85,11 +85,7 @@ public class GroupActivity extends AppCompatActivity {
 
         //Récupération de la list des member du group
         groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
-        try {
-            memberNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
-        } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-        }
+        memberNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
 
         //Récupération de la list des transactions du group
         groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
@@ -156,11 +152,7 @@ public class GroupActivity extends AppCompatActivity {
                 ArrayList<Member> memberList = new ArrayList<Member>();
                 ArrayList<String> memberNameList = new ArrayList<String>();
                 groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
-                try {
-                    memberNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
-                } catch (IOException | XmlPullParserException e) {
-                    e.printStackTrace();
-                }
+                memberNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
                 for (String memberName : memberNameList)
                 {
                     Double totalTransactionAmount = groupXMLManipulator.getTotalTransactionAmountOfMember(groupName, memberName);
@@ -223,11 +215,7 @@ public class GroupActivity extends AppCompatActivity {
                 ArrayList<Member> memberList = new ArrayList<Member>();
                 ArrayList<String> memberNameList = new ArrayList<String>();
                 groupXMLManipulator = new XMLManipulator(getApplicationContext());
-                try {
-                    memberNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
-                } catch (IOException | XmlPullParserException e) {
-                    e.printStackTrace();
-                }
+                memberNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
                 for (String memberName : memberNameList)
                 {
                     Double totalTransactionAmount = groupXMLManipulator.getTotalTransactionAmountOfMember(groupName, memberName);

@@ -54,11 +54,7 @@ public class AddNewTransactionActivity extends AppCompatActivity {
         addNewTransactionButton = (Button) findViewById(R.id.addNewTransaction_button);
 
         groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
-        try {
-            listOfMember = groupXMLManipulator.getListMemberOfGroup(groupName);
-        } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-        }
+        listOfMember = groupXMLManipulator.getListMemberOfGroup(groupName);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, listOfMember);
         transactionOwnerSpinner.setAdapter(adapter);
 

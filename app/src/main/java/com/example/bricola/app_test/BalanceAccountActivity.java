@@ -1,5 +1,6 @@
 package com.example.bricola.app_test;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -34,8 +36,8 @@ public class BalanceAccountActivity extends AppCompatActivity {
         receiverNamesList = extras.getStringArrayList("receiverNames");
         donatorNamesList = extras.getStringArrayList("donatorNames");
         valuesList = extras.getStringArrayList("values");
-        message ="Bonjour à tous,\nVous trouverez ci dessous les comptes calculer automatiquement" +
-                "à l'aide de l'application GroupeAcountCompa";
+        message ="Bonjour à tous,\nVous trouverez ci dessous les comptes calculés automatiquement" +
+                "à l'aide de l'application GroupeAcountCompta :\n";
 
         this.setTitle(groupName);
 
@@ -58,11 +60,11 @@ public class BalanceAccountActivity extends AppCompatActivity {
 
             //Fleche
             TextView arrow = new TextView(this);
-            arrow.setText(" paie à ");
+            arrow.setText(" doit à ");
             arrow.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             arrow.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(arrow);
-            message=message+" paie à ";
+            message=message+" doit à ";
 
             //Nom du receveur
             TextView creditorNameTextView = new TextView(this);
@@ -95,8 +97,10 @@ public class BalanceAccountActivity extends AppCompatActivity {
         messageSender = (Button) findViewById(R.id.MessageSender);
         messageSender.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                SendMail mail= new SendMail(message,"christnachern@aol.com","comtpes");
-                SendSMS sms= new SendSMS("0635489383",message);
+                //Avec le num à Martin :p
+                SendSMS sms= new SendSMS("0606419410",message);
+                SendMail mail = new SendMail(message,"christnachern@aol.com","comptes",BalanceAccountActivity.this );
+
             }
         });
     }

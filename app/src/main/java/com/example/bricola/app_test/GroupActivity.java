@@ -1,6 +1,8 @@
 package com.example.bricola.app_test;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -145,10 +147,33 @@ public class GroupActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_deleteGroup:
-                XMLManipulator groupXMLManipulator = new XMLManipulator(getApplicationContext());
-                groupXMLManipulator.deleteGroup(groupName);
-                intent = new Intent(GroupActivity.this, MainActivity.class);
-                startActivity(intent);
+
+                AlertDialog.Builder demandefermeture = new AlertDialog.Builder(GroupActivity.this);
+
+                demandefermeture.setTitle("Suppression du groupe");
+                // set dialog message
+                demandefermeture
+                        .setMessage("Click Yes to delete")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                XMLManipulator groupXMLManipulator = new XMLManipulator(getApplicationContext());
+                                groupXMLManipulator.deleteGroup(groupName);
+                                Intent intent = new Intent(GroupActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = demandefermeture.create();
+                alertDialog.show();
                 break;
             case R.id.action_balanceAccount:
                 //Détermination des transaction de remboursement à faire

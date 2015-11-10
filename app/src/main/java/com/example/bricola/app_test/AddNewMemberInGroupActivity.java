@@ -1,9 +1,12 @@
 package com.example.bricola.app_test;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -26,6 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +38,7 @@ import android.telephony.TelephonyManager;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AddNewMemberInGroupActivity extends AppCompatActivity {
@@ -207,7 +213,11 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         long monlong_picture_id = 0;
         long monLong_id = 0;
         String name_of_contacts = null;
-        String number_or_mail = null;
+       // String number_or_mail = null;
+        //String s = null;
+        ArrayList<String> s = new ArrayList<String>();
+        ArrayList<String> number_reception = new ArrayList<String>();
+        ArrayList<String> mail_reception = new ArrayList<String>();
 
         super.onActivityResult(reqCode, resultCode, data);
         switch (reqCode) {
@@ -233,12 +243,13 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                         else {
                             monlong_picture_id=Long.parseLong("0");
                         }
+
                         if (Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                             Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
-
-
                             while (pCur.moveToNext()) {
                                 String phone = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                String type = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                                s.add((String) ContactsContract.CommonDataKinds.Phone.getTypeLabel(getResources(), Integer.parseInt(type), ""));
 
                                 //Replace +33 par 0
                                 phone = phone.replaceAll("\\+33","0");
@@ -246,26 +257,31 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                                 phone = phone.replaceAll("\\D+","");
 
                                 name_of_contacts= name;
-                                number_or_mail = phone;
+                                number_reception.add(phone);
                             }
+                            pCur.close();
                         }
                         else {
                             Cursor pCurmail = crmail.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,null,ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",new String[]{id},null);
                             while (pCurmail.moveToNext()) {
                                 String mail = pCurmail.getString(pCurmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                                int type = pCurmail.getInt(pCurmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
+                                s.add( (String) ContactsContract.CommonDataKinds.Email.getTypeLabel(getResources(), type, ""));
                                 name_of_contacts=name;
-                                number_or_mail=mail;
+                                number_reception.add(mail);
                             }
+                            pCurmail.close();
                         }
                     }
                         photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
                         imageviewcontact = (ImageView) findViewById(R.id.img_contacts);
                         imageviewcontact.setImageBitmap(photo);
-memberNameEditText.setText(name_of_contacts);
-memberNumberEditText.setText(number_or_mail);
+                        memberNameEditText.setText(name_of_contacts);
+
                 }
                 break;
         }
+        ouverture_alertdialog(s,number_reception);
     }
 
     public  Bitmap loadContactPhoto(ContentResolver cr, long  id,long photo_id)
@@ -285,7 +301,6 @@ memberNumberEditText.setText(number_or_mail);
         Uri photoUri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id);
 
         Cursor c = cr.query(photoUri, new String[] {ContactsContract.CommonDataKinds.Photo.PHOTO}, null, null, null);
-
         try
         {
             if (c.moveToFirst())
@@ -296,7 +311,6 @@ memberNumberEditText.setText(number_or_mail);
             e.printStackTrace();
 
         } finally {
-
             c.close();
         }
         if (photoBytes != null)
@@ -305,4 +319,48 @@ memberNumberEditText.setText(number_or_mail);
             Log.d("PHOTO", "second try also failed");
         return null;
     }
+
+    public void ouverture_alertdialog(ArrayList<String> type, final ArrayList<String> numero_portable) {
+        ArrayList<String> description_contact = new ArrayList<String>();
+        for (int i = 0;i<type.size();i++){
+           description_contact.add(type.get(i) + "\n" + numero_portable.get(i));
+       }
+
+
+        final CharSequence myList[] = description_contact.toArray(new CharSequence[description_contact.size()]);
+         AlertDialog.Builder builder = new AlertDialog.Builder(AddNewMemberInGroupActivity.this);
+        // Set the dialog title
+        builder.setTitle("Choix du numéro");
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+        builder
+                .setSingleChoiceItems(myList, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Toast.makeText(getApplicationContext(), "You Choose : " + myList[arg1], Toast.LENGTH_LONG).show();
+                    }
+                })
+                        // Set the action buttons
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked OK, so save the mSelectedItems results somewhere
+                        // or return them to the component that opened the dialog
+                       dialog.dismiss();
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        memberNumberEditText.setText(numero_portable.get(selectedPosition));
+                    }
+        })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
+
+}
+

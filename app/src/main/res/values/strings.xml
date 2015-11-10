@@ -9,4 +9,5 @@
     <string name="title_activity_add_new_transaction">AddNewTransactionActivity</string>
     <string name="title_activity_delete_transaction">DeleteTransactionActivity</string>
     <string name="title_activity_balance_account">BalanceAccountActivity</string>
+    <string name="title_activity_choix_numero">Choix_numero</string>
 </resources>

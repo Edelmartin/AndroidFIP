@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,8 +58,12 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
     private LinearLayout memberDetailsLinearLayout = null;
     private ImageView imageviewcontact = null;
 
+    ArrayList<String> memberNameList1 = new ArrayList<String>();
+    ArrayList<String> memberNumberList1 = new ArrayList<String>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_member_in_group);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -208,16 +213,18 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
 
     @Override
-   public void onActivityResult(int reqCode, int resultCode, Intent data) {
+   public void onActivityResult(int reqCode, int resultCode, Intent data)
+    {
         Bitmap photo = null;
         long monlong_picture_id = 0;
         long monLong_id = 0;
         String name_of_contacts = null;
-       // String number_or_mail = null;
-        //String s = null;
+
         ArrayList<String> s = new ArrayList<String>();
         ArrayList<String> number_reception = new ArrayList<String>();
         ArrayList<String> mail_reception = new ArrayList<String>();
+
+        Integer mail_ou_telephone = 0;
 
         super.onActivityResult(reqCode, resultCode, data);
         switch (reqCode) {
@@ -247,6 +254,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                         if (Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                             Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
                             while (pCur.moveToNext()) {
+                                mail_ou_telephone = 1;
                                 String phone = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 String type = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                                 s.add((String) ContactsContract.CommonDataKinds.Phone.getTypeLabel(getResources(), Integer.parseInt(type), ""));
@@ -260,8 +268,11 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                                 number_reception.add(phone);
                             }
                             pCur.close();
+                            photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
+                            ouverture_alertdialog(s, number_reception, mail_ou_telephone, name_of_contacts, photo);
                         }
                         else {
+                            mail_ou_telephone = 2;
                             Cursor pCurmail = crmail.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,null,ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",new String[]{id},null);
                             while (pCurmail.moveToNext()) {
                                 String mail = pCurmail.getString(pCurmail.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
@@ -271,17 +282,15 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                                 number_reception.add(mail);
                             }
                             pCurmail.close();
+                            photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
+                            ouverture_alertdialog(s, number_reception, mail_ou_telephone, name_of_contacts, photo);
                         }
-                    }
-                        photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
-                        imageviewcontact = (ImageView) findViewById(R.id.img_contacts);
-                        imageviewcontact.setImageBitmap(photo);
-                        memberNameEditText.setText(name_of_contacts);
 
+                    }
+                        //memberNameEditText.setText(name_of_contacts);
                 }
                 break;
         }
-        ouverture_alertdialog(s,number_reception);
     }
 
     public  Bitmap loadContactPhoto(ContentResolver cr, long  id,long photo_id)
@@ -320,47 +329,99 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         return null;
     }
 
-    public void ouverture_alertdialog(ArrayList<String> type, final ArrayList<String> numero_portable) {
+    public void ouverture_alertdialog(ArrayList<String> type, final ArrayList<String> numero_portable,Integer mail_ou_phone, final String contact_name, final Bitmap photo_contact)
+    {
+        final int numero_choisi;
         ArrayList<String> description_contact = new ArrayList<String>();
         for (int i = 0;i<type.size();i++){
            description_contact.add(type.get(i) + "\n" + numero_portable.get(i));
-       }
-
+        }
 
         final CharSequence myList[] = description_contact.toArray(new CharSequence[description_contact.size()]);
          AlertDialog.Builder builder = new AlertDialog.Builder(AddNewMemberInGroupActivity.this);
+
+    if (mail_ou_phone == 1) {
         // Set the dialog title
         builder.setTitle("Choix du numéro");
-                // Specify the list array, the items to be selected by default (null for none),
-                // and the listener through which to receive callbacks when items are selected
-        builder
-                .setSingleChoiceItems(myList, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Toast.makeText(getApplicationContext(), "You Choose : " + myList[arg1], Toast.LENGTH_LONG).show();
-                    }
-                })
-                        // Set the action buttons
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // User clicked OK, so save the mSelectedItems results somewhere
-                        // or return them to the component that opened the dialog
-                       dialog.dismiss();
-                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                        memberNumberEditText.setText(numero_portable.get(selectedPosition));
-                    }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
+    } else if (mail_ou_phone == 2) {
+        builder.setTitle("Choix de l'adresse mail");
+    }
+    // Specify the list array, the items to be selected by default (null for none),
+    // and the listener through which to receive callbacks when items are selected
+    builder
+            .setSingleChoiceItems(myList, 0, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    Toast.makeText(getApplicationContext(), "You Choose : " + myList[arg1], Toast.LENGTH_LONG).show();
+                }
+            })
+                    // Set the action buttons
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // User clicked OK, so save the mSelectedItems results somewhere
+                    // or return them to the component that opened the dialog
+                    dialog.dismiss();
+                    int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition(); //récupère le choix de alert view (plusieurs numéro)
+                   // memberNumberEditText.setText(numero_portable.get(selectedPosition));
+                    remplissage_ajout_repertoire(numero_portable.get(selectedPosition),contact_name);
+                    imageviewcontact = (ImageView) findViewById(R.id.img_contacts);
+                    imageviewcontact.setImageBitmap(photo_contact);
+                }
+            })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+    AlertDialog alertDialog = builder.create();
+    alertDialog.show();
     }
 
+    public void remplissage_ajout_repertoire(String str, String contactName)
+    {
+
+
+        if (memberNameList1.contains(contactName) && memberNumberList1.contains(str)) {
+            contactName = "";
+            str = "";
+            memberNumberList1.add(str);
+            memberNameList1.add(contactName);
+            Toast toast = Toast.makeText(getApplicationContext(), "Contact déjà sélectionné " , Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+            LinearLayout toastLayout = (LinearLayout) toast.getView();
+            TextView toastTV = (TextView) toastLayout.getChildAt(0);
+            toastTV.setTextSize(18);
+            toast.show();
+        }
+        else{
+            memberNumberList1.add(str);
+            memberNameList1.add(contactName);
+        }
+
+
+
+        for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
+            Integer editTextField = 0;
+            memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
+            for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++)
+            {
+                if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0))
+                {
+                    String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                    if (test1.equals(""))
+                        ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
+                    editTextField++;
+                }
+                    else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1))
+                {
+                       String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                        if (test2.equals(""))
+                            ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
+                }
+            }
+        }
+    }
 }
 

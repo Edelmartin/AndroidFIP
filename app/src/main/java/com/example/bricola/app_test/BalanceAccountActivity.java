@@ -130,13 +130,17 @@ public class BalanceAccountActivity extends AppCompatActivity {
                         listeNomContactSansContact = listeNomContactSansContact + listMember.get(i) + "\n";
                     }
 
-                    if (listeNomContactSansContact.isEmpty() == false) {
+                    if (!listeNomContactSansContact.isEmpty()) {
                         Toast toast = Toast.makeText(getApplicationContext(), "C'est personnes n'ont pas pu etre contacté(es) car nous ne possédons pas d'adresse mail ou de numéros de téléphone:\n"+listeNomContactSansContact , Toast.LENGTH_SHORT);
-
+                        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+                        LinearLayout toastLayout = (LinearLayout) toast.getView();
+                        TextView toastTV = (TextView) toastLayout.getChildAt(0);
+                        toastTV.setTextSize(18);
+                        toast.show();
                     }
 
-                    if(listeAddrMail.isEmpty()==false) {
-                        SendMail mail = new SendMail(message, listeNomContactSansContact, "comptes", BalanceAccountActivity.this);
+                    if(!listeAddrMail.isEmpty()) {
+                        SendMail mail = new SendMail(message, listeAddrMail, "comptes", BalanceAccountActivity.this);
                     }
 
 

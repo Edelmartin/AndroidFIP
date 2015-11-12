@@ -63,7 +63,8 @@
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/textView14"
                         android:layout_alignParentEnd="true"
-                        android:password="false" />
+                        android:password="false"
+                        android:focusable="false"/>
 
                     <ImageView
                         android:layout_width="50dp"
@@ -83,7 +84,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="phone"
                         android:ems="10"
-                        android:id="@+id/memberNumber_editText" />
+                        android:id="@+id/memberNumber_editText"
+                        android:focusable="false"/>
                 </LinearLayout>
             </LinearLayout>
 

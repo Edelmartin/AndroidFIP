@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,7 +70,6 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         memberNameEditText = (EditText) findViewById(R.id.memberName_editText);
         newMemberLinearLayout = (LinearLayout) findViewById(R.id.newMember_linearLayout);
 
@@ -78,6 +78,26 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         groupName = extras.getString("groupName");
         this.setTitle(groupName);
+
+        memberNameEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                v.setFocusable(true);
+                v.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
+
+        memberNumberEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                v.setFocusable(true);
+                v.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
 
         addNewMemberInGroupButton = (Button) findViewById(R.id.addNewMemberInGroup_button);
         addNewMemberInGroupButton.setOnClickListener(new View.OnClickListener() {
@@ -97,17 +117,13 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     */
 
                 //Verification du contenu des noms des membres pour ne pas qu'ils soient vides
-                for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++)
-                {
+                for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
                     Integer editTextField = 0;
                     memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
-                    for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++)
-                    {
-                        if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0))
-                        {
+                    for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                        if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
                             String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                            if (str.equals(""))
-                            {
+                            if (str.equals("")) {
                                 Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -122,14 +138,12 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                 for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
                     Integer editTextField = 0;
                     memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
-                    for (int j = 0 ; j < memberDetailsLinearLayout.getChildCount() ; j++)
-                    {
+                    for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
                         if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
                             String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
                             memberNameList.add(str);
                             editTextField++;
-                        }
-                        else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                        } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                             String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
                             if (str.equals(""))
                                 str = "null";
@@ -139,8 +153,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                 }
 
                 groupXMLManipulator = new XMLManipulator(getApplicationContext());
-                for (int i = 0 ; i < memberNameList.size() ; i++)
-                {
+                for (int i = 0; i < memberNameList.size(); i++) {
                     groupXMLManipulator.addNewMemberInGroup(groupName, memberNameList.get(i));
                 }
 
@@ -164,12 +177,10 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         addNewMemberButton = (Button) findViewById(R.id.addNewMember_button);
         addNewMemberButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (newMemberLinearLayout.getChildCount() == 1)
-                {
+                if (newMemberLinearLayout.getChildCount() == 1) {
                     deleteMemberButton.setEnabled(true);
                 }
-                if (newMemberLinearLayout.getChildCount() >=1)
-                {
+                if (newMemberLinearLayout.getChildCount() >= 1) {
                     LinearLayout newMemberDetailsLinearLayout = new LinearLayout(getApplication());
                     newMemberDetailsLinearLayout.setOrientation(LinearLayout.VERTICAL);
 
@@ -178,7 +189,11 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     newMemberNameTextView.setTextColor(Color.parseColor("#7e7e7e"));
                     newMemberDetailsLinearLayout.addView(newMemberNameTextView);
 
-                    EditText newMemberNameEditText = (EditText)getLayoutInflater().inflate(R.layout.newedittextstyle, null);
+                    ImageView newImageContact = new ImageView(getApplication());
+                    newMemberDetailsLinearLayout.addView(newImageContact);
+
+                    EditText newMemberNameEditText = (EditText) getLayoutInflater().inflate(R.layout.newedittextstyle, null);
+                    newMemberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                     newMemberDetailsLinearLayout.addView(newMemberNameEditText);
 
                     TextView newMemberNumberTextView = new TextView(getApplication());
@@ -186,7 +201,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     newMemberNumberTextView.setTextColor(Color.parseColor("#7e7e7e"));
                     newMemberDetailsLinearLayout.addView(newMemberNumberTextView);
 
-                    EditText newMemberNumberEditText = (EditText)getLayoutInflater().inflate(R.layout.newedittextstyle, null);
+                    EditText newMemberNumberEditText = (EditText) getLayoutInflater().inflate(R.layout.newedittextstyle, null);
                     newMemberNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
                     newMemberDetailsLinearLayout.addView(newMemberNumberEditText);
 
@@ -198,13 +213,10 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         deleteMemberButton = (Button) findViewById(R.id.deleteMember_button);
         deleteMemberButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (newMemberLinearLayout.getChildCount() == 2)
-                {
+                if (newMemberLinearLayout.getChildCount() == 2) {
                     deleteMemberButton.setEnabled(false);
-
                 }
-                if (newMemberLinearLayout.getChildCount() > 1)
-                {
+                if (newMemberLinearLayout.getChildCount() > 1) {
                     newMemberLinearLayout.removeViewAt(newMemberLinearLayout.getChildCount() - 1);
                 }
             }
@@ -382,8 +394,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
     public void remplissage_ajout_repertoire(String str, String contactName)
     {
 
-
-        if (memberNameList1.contains(contactName) && memberNumberList1.contains(str)) {
+        if (memberNameList1.contains(contactName))   {
             contactName = "";
             str = "";
             memberNumberList1.add(str);
@@ -395,12 +406,24 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             toastTV.setTextSize(18);
             toast.show();
         }
-        else{
+       /* else if (memberNumberList1.contains(str))
+        {
+            contactName = "";
+            str = "";
             memberNumberList1.add(str);
             memberNameList1.add(contactName);
+            Toast toast = Toast.makeText(getApplicationContext(), "Deux contact ont le même numéro " , Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+            LinearLayout toastLayout = (LinearLayout) toast.getView();
+            TextView toastTV = (TextView) toastLayout.getChildAt(0);
+            toastTV.setTextSize(15);
+            toast.show();
+        }*/
+        else
+        {
+        memberNumberList1.add(str);
+        memberNameList1.add(contactName);
         }
-
-
 
         for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
             Integer editTextField = 0;
@@ -423,5 +446,6 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             }
         }
     }
+
 }
 

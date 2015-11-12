@@ -134,7 +134,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
                 //Récupération du nom et du numero des membres
                 ArrayList<String> memberNameList = new ArrayList<String>();
-                ArrayList<String> memberNumberList = new ArrayList<String>();
+                ArrayList<String> memberContactList = new ArrayList<String>();
                 for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
                     Integer editTextField = 0;
                     memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
@@ -147,14 +147,14 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                             String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
                             if (str.equals(""))
                                 str = "null";
-                            memberNumberList.add(str);
+                            memberContactList.add(str);
                         }
                     }
                 }
 
                 groupXMLManipulator = new XMLManipulator(getApplicationContext());
                 for (int i = 0; i < memberNameList.size(); i++) {
-                    groupXMLManipulator.addNewMemberInGroup(groupName, memberNameList.get(i));
+                    groupXMLManipulator.addNewMemberInGroup(groupName, memberNameList.get(i), memberContactList.get(i));
                 }
 
                 //Retour a la fenetre du group

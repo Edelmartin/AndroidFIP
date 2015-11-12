@@ -100,17 +100,17 @@ public class BalanceAccountActivity extends AppCompatActivity {
 
                 //Récupération de la liste des numéros:
 
-                        XMLManipulator xmlmanip = new XMLManipulator(BalanceAccountActivity.this);
-                        ArrayList<String> listMember = xmlmanip.getListMemberOfGroup(groupName);
-                        ArrayList<String> contactList = xmlmanip.getListMemberContact(groupName);
+                XMLManipulator xmlmanip = new XMLManipulator(BalanceAccountActivity.this);
+                ArrayList<String> listMember = xmlmanip.getListMemberOfGroup(groupName);
+                ArrayList<String> contactList = xmlmanip.getListMemberContact(groupName);
                 String listeAddrMail ="";
                 String listeNomContactSansContact = "";
 
                 //fon test tous les "contacts" du groupe
-                for (int i=0;i<= listMember.size();i++) {
+                for (int i=0 ; i < listMember.size() ; i++) {
 
                     //si le contact n'est pas vide, on envoi soit un message soit un email
-                    if (contactList.get(i) != "NULL") {
+                    if (!contactList.get(i).toString().equals("null")) {
                         //si pas @ c'est un numéro
                         if (contactList.get(i).indexOf("@") <= -1) {
                             SendSMS sms = new SendSMS(contactList.get(i), message);

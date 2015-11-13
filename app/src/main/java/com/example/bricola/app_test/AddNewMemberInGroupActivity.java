@@ -1,5 +1,6 @@
 package com.example.bricola.app_test;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,6 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -57,10 +59,10 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
     private static XMLManipulator groupXMLManipulator;
     private LinearLayout newMemberLinearLayout = null;
     private LinearLayout memberDetailsLinearLayout = null;
-    private ImageView imageviewcontact = null;
 
     ArrayList<String> memberNameList1 = new ArrayList<String>();
     ArrayList<String> memberNumberList1 = new ArrayList<String>();
+    ArrayList<Bitmap> memberphoto = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,8 +84,8 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         memberNameEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 v.setFocusable(true);
+                memberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                 v.setFocusableInTouchMode(true);
                 return false;
             }
@@ -94,6 +96,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
 
                 v.setFocusable(true);
+                memberNumberEditText.setInputType(InputType.TYPE_CLASS_TEXT);//TYPE_CLASS_PHONE);
                 v.setFocusableInTouchMode(true);
                 return false;
             }
@@ -189,20 +192,25 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     newMemberNameTextView.setTextColor(Color.parseColor("#7e7e7e"));
                     newMemberDetailsLinearLayout.addView(newMemberNameTextView);
 
-                    ImageView newImageContact = new ImageView(getApplication());
-                    newMemberDetailsLinearLayout.addView(newImageContact);
-
                     EditText newMemberNameEditText = (EditText) getLayoutInflater().inflate(R.layout.newedittextstyle, null);
                     newMemberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                     newMemberDetailsLinearLayout.addView(newMemberNameEditText);
 
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(150, 150);
+                    layoutParams.gravity=Gravity.RIGHT;
+                    ImageView newImageContact = new ImageView(getApplication());
+                    newImageContact.setImageResource(R.mipmap.no_contact);
+                    newImageContact.setLayoutParams(layoutParams);
+                    newMemberDetailsLinearLayout.addView(newImageContact);
+
                     TextView newMemberNumberTextView = new TextView(getApplication());
-                    newMemberNumberTextView.setText("Numéro de téléphone:");
+                    newMemberNumberTextView.setText("Mail ou numéro de téléphone:");
                     newMemberNumberTextView.setTextColor(Color.parseColor("#7e7e7e"));
                     newMemberDetailsLinearLayout.addView(newMemberNumberTextView);
 
+
                     EditText newMemberNumberEditText = (EditText) getLayoutInflater().inflate(R.layout.newedittextstyle, null);
-                    newMemberNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+                    newMemberNumberEditText.setInputType(InputType.TYPE_CLASS_TEXT);//TYPE_CLASS_PHONE);
                     newMemberDetailsLinearLayout.addView(newMemberNumberEditText);
 
                     newMemberLinearLayout.addView(newMemberDetailsLinearLayout);
@@ -221,8 +229,9 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
+
+    }
 
     @Override
    public void onActivityResult(int reqCode, int resultCode, Intent data)
@@ -280,8 +289,8 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                                 number_reception.add(phone);
                             }
                             pCur.close();
-                            photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
-                            ouverture_alertdialog(s, number_reception, mail_ou_telephone, name_of_contacts, photo);
+                           // photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
+                            //ouverture_alertdialog(s, number_reception, mail_ou_telephone, name_of_contacts, photo,monlong_picture_id);
                         }
                         else {
                             mail_ou_telephone = 2;
@@ -294,10 +303,11 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                                 number_reception.add(mail);
                             }
                             pCurmail.close();
-                            photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
-                            ouverture_alertdialog(s, number_reception, mail_ou_telephone, name_of_contacts, photo);
+                           // photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
+                            //ouverture_alertdialog(s, number_reception, mail_ou_telephone, name_of_contacts, photo,monlong_picture_id);
                         }
-
+                        photo = loadContactPhoto(photo_appli, monLong_id, monlong_picture_id);//301,2158);
+                        ouverture_alertdialog(s, number_reception, mail_ou_telephone, name_of_contacts, photo,monlong_picture_id);
                     }
                         //memberNameEditText.setText(name_of_contacts);
                 }
@@ -321,7 +331,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
         Uri photoUri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id);
 
-        Cursor c = cr.query(photoUri, new String[] {ContactsContract.CommonDataKinds.Photo.PHOTO}, null, null, null);
+        Cursor c = cr.query(photoUri, new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO}, null, null, null);
         try
         {
             if (c.moveToFirst())
@@ -341,7 +351,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         return null;
     }
 
-    public void ouverture_alertdialog(ArrayList<String> type, final ArrayList<String> numero_portable,Integer mail_ou_phone, final String contact_name, final Bitmap photo_contact)
+    public void ouverture_alertdialog(ArrayList<String> type, final ArrayList<String> numero_portable,Integer mail_ou_phone, final String contact_name, final Bitmap photo_contact, final long id_de_la_photo)
     {
         final int numero_choisi;
         ArrayList<String> description_contact = new ArrayList<String>();
@@ -376,9 +386,9 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     dialog.dismiss();
                     int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition(); //récupère le choix de alert view (plusieurs numéro)
                    // memberNumberEditText.setText(numero_portable.get(selectedPosition));
-                    remplissage_ajout_repertoire(numero_portable.get(selectedPosition),contact_name);
-                    imageviewcontact = (ImageView) findViewById(R.id.img_contacts);
-                    imageviewcontact.setImageBitmap(photo_contact);
+                    remplissage_ajout_repertoire(numero_portable.get(selectedPosition),contact_name, photo_contact,id_de_la_photo);
+                    //imageviewcontact = (ImageView) findViewById(R.id.img_contacts);
+                   // imageviewcontact.setImageBitmap(photo_contact);
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -387,16 +397,28 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     dialog.cancel();
                 }
             });
-    AlertDialog alertDialog = builder.create();
-    alertDialog.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    Toast.makeText(getApplicationContext(), "You Choose : Close Alert Dialog ", Toast.LENGTH_LONG).show();
+                }
+                return true;
+            }
+        });
+       //onKeyDown()
     }
 
-    public void remplissage_ajout_repertoire(String str, String contactName)
+    public void remplissage_ajout_repertoire(String str, String contactName, Bitmap member_contact_photo, long id_de_la_photo)
     {
-
         if (memberNameList1.contains(contactName))   {
             contactName = "";
             str = "";
+            id_de_la_photo = 0;
             memberNumberList1.add(str);
             memberNameList1.add(contactName);
             Toast toast = Toast.makeText(getApplicationContext(), "Contact déjà sélectionné " , Toast.LENGTH_SHORT);
@@ -428,20 +450,22 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
             Integer editTextField = 0;
             memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
-            for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++)
-            {
-                if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0))
-                {
+            for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
                     String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (test1.equals(""))
+                    if (test1.equals("")) {
                         ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
+                        if (id_de_la_photo != 0) {
+                            ((ImageView) memberDetailsLinearLayout.getChildAt(j+1)).setImageBitmap(member_contact_photo);
+                        } else {
+                            ((ImageView) memberDetailsLinearLayout.getChildAt(j+1)).setImageResource(R.mipmap.no_contact);
+                        }
+                    }
                     editTextField++;
-                }
-                    else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1))
-                {
-                       String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                        if (test2.equals(""))
-                            ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
+                } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                    String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                    if (test2.equals(""))
+                        ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
                 }
             }
         }

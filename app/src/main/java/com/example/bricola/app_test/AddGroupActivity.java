@@ -423,7 +423,10 @@ public class AddGroupActivity extends AppCompatActivity {
         //Verification du contenu du nom du groupe
         Boolean emptyEditText = false;
         if (groupNameEditText.getText().toString().matches(""))
-            emptyEditText = true;
+        {
+            Toast.makeText(getApplication(), "Vous n'avez pas complété le nom du groupe", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //Verification du contenu des noms des membres pour ne pas qu'ils soient vides
         for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
@@ -432,11 +435,8 @@ public class AddGroupActivity extends AppCompatActivity {
             for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
                 if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
                     String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if ((str.equals("")) &&(newMemberLinearLayout.getChildCount() > 1)) {
-                        newMemberLinearLayout.removeViewAt(newMemberLinearLayout.getChildCount() - 1);
-                    }
                     if (str.equals("")) {
-                        Toast.makeText(getApplication(), "Vous n'avez pas complété le nom du groupe ou d'un membre", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), "Vous n'avez pas complété le nom d'un membre", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     editTextField++;
@@ -449,11 +449,6 @@ public class AddGroupActivity extends AppCompatActivity {
                     }
                 }
             }
-        }
-
-        if (emptyEditText) {
-            Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
-            return;
         }
 
         //Récupération du nom et du numero des membres

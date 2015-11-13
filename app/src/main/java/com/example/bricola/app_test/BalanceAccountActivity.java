@@ -36,8 +36,9 @@ public class BalanceAccountActivity extends AppCompatActivity {
         receiverNamesList = extras.getStringArrayList("receiverNames");
         donatorNamesList = extras.getStringArrayList("donatorNames");
         valuesList = extras.getStringArrayList("values");
-        message ="Bonjour à tous,\nVous trouverez ci dessous les comptes calculés automatiquement" +
-                "à l'aide de l'application GroupeAcountCompta :\n";
+        message = "Bonjour à tous,\n"
+                + "Vous trouverez ci dessous les comptes calculés automatiquement à l'aide de l'application \"Partage de frais\" : \n"
+                + "Groupe : " + groupName + "\n";
 
         this.setTitle(groupName);
 

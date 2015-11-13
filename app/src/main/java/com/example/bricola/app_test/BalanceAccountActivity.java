@@ -97,9 +97,54 @@ public class BalanceAccountActivity extends AppCompatActivity {
         messageSender = (Button) findViewById(R.id.MessageSender);
         messageSender.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Avec le num à Martin :p
-                SendSMS sms= new SendSMS("0606419410",message);
-                SendMail mail = new SendMail(message,"christnachern@aol.com","comptes",BalanceAccountActivity.this );
+
+                //Récupération de la liste des numéros:
+
+                XMLManipulator xmlmanip = new XMLManipulator(BalanceAccountActivity.this);
+                ArrayList<String> listMember = xmlmanip.getListMemberOfGroup(groupName);
+                ArrayList<String> contactList = xmlmanip.getListMemberContact(groupName);
+                String listeAddrMail ="";
+                String listeNomContactSansContact = "";
+
+                //fon test tous les "contacts" du groupe
+                for (int i=0 ; i < listMember.size() ; i++) {
+
+                    //si le contact n'est pas vide, on envoi soit un message soit un email
+                    if (!contactList.get(i).toString().equals("null")) {
+                        //si pas @ c'est un numéro
+                        if (contactList.get(i).indexOf("@") <= -1) {
+                            SendSMS sms = new SendSMS(contactList.get(i), message);
+                        }
+
+                        //sinon on récupere l'adresse mail et on envoie à la fin de la boucle
+                        // à cause de l'ouverture de l'ouverture de l'apli mail
+                        else {
+                            listeAddrMail = listeAddrMail + contactList.get(i) + ";";
+                        }
+                    }
+
+                    //si on n'a ni numéros ni adresse mail
+                    else {
+                        //on affiche un message avec les noms des personnes desquelles
+                        //nous n'avons pas de mail et de message
+                        listeNomContactSansContact = listeNomContactSansContact + listMember.get(i) + "\n";
+                    }
+
+                    if (!listeNomContactSansContact.isEmpty()) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "C'est personnes n'ont pas pu etre contacté(es) car nous ne possédons pas d'adresse mail ou de numéros de téléphone:\n"+listeNomContactSansContact , Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+                        LinearLayout toastLayout = (LinearLayout) toast.getView();
+                        TextView toastTV = (TextView) toastLayout.getChildAt(0);
+                        toastTV.setTextSize(18);
+                        toast.show();
+                    }
+
+                    if(!listeAddrMail.isEmpty()) {
+                        SendMail mail = new SendMail(message, listeAddrMail, "comptes", BalanceAccountActivity.this);
+                    }
+
+
+                }
 
             }
         });

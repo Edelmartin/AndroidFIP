@@ -105,7 +105,7 @@ public class AddGroupActivity extends AppCompatActivity {
 
                 //Récupération du nom et du numero des membres
                 ArrayList<String> memberNameList = new ArrayList<String>();
-                ArrayList<String> memberNumberList = new ArrayList<String>();
+                ArrayList<String> memberContactList = new ArrayList<String>();
 
                 for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
                     Integer editTextField = 0;
@@ -119,7 +119,7 @@ public class AddGroupActivity extends AppCompatActivity {
                             String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
                             if (str.equals(""))
                                 str = "null";
-                            memberNumberList.add(str);
+                            memberContactList.add(str);
                         }
                     }
                 }
@@ -127,7 +127,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 //Modification du fichier XML
                 groupXMLManipulator = new XMLManipulator(getApplication());
                 try {
-                    groupXMLManipulator.addNewGroupWithMember(groupNameEditText.getText().toString(), memberNameList);
+                    groupXMLManipulator.addNewGroupWithMember(groupNameEditText.getText().toString(), memberNameList, memberContactList);
                 } catch (IOException | XmlPullParserException e) {
                     e.printStackTrace();
                 }

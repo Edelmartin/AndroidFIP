@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
     public static final int PICK_CONTACT = 1;
-    
+
     private Button addNewMemberButton = null;
     private Button addNewMemberRepertory = null;
     private Button deleteMemberButton = null;

@@ -138,15 +138,6 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ajouter le groupe"
-                android:id="@+id/addNewGroup_button"
-                android:layout_below="@+id/addNewMember_button"
-                android:layout_alignParentStart="true"
-                android:layout_alignEnd="@+id/groupName_editText" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="Recherche Repertoire"
                 android:id="@+id/add_repertory_name1" />
         </LinearLayout>

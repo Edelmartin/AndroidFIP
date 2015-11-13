@@ -21,6 +21,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +43,6 @@ public class AddGroupActivity extends AppCompatActivity {
 
     public static final int PICK_CONTACT = 1;
 
-    private Button addNewGroupButton = null;
     private Button addNewMemberButton = null;
     private Button deleteMemberButton = null;
     private Button addNewMemberRepertory = null;
@@ -74,70 +75,6 @@ public class AddGroupActivity extends AppCompatActivity {
 
         memberNumberEditText = (EditText) findViewById(R.id.memberNumber_editText);
         memberNumberEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        addNewGroupButton = (Button) findViewById(R.id.addNewGroup_button);
-        addNewGroupButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                //Verification du contenu du nom du groupe
-                Boolean emptyEditText = false;
-                if (groupNameEditText.getText().toString().matches(""))
-                    emptyEditText = true;
-
-                //Verification du contenu des noms des membres pour ne pas qu'ils soient vides
-                for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
-                    Integer editTextField = 0;
-                    memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
-                    for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
-                        if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
-                            String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                            if (str.equals(""))
-                                emptyEditText = true;
-                            editTextField++;
-                        }
-                    }
-                }
-
-                if (emptyEditText) {
-                    Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                //Récupération du nom et du numero des membres
-                ArrayList<String> memberNameList = new ArrayList<String>();
-                ArrayList<String> memberContactList = new ArrayList<String>();
-
-                for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
-                    Integer editTextField = 0;
-                    memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
-                    for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
-                        if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
-                            String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                            memberNameList.add(str);
-                            editTextField++;
-                        } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
-                            String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                            if (str.equals(""))
-                                str = "null";
-                            memberContactList.add(str);
-                        }
-                    }
-                }
-
-                //Modification du fichier XML
-                groupXMLManipulator = new XMLManipulator(getApplication());
-                try {
-                    groupXMLManipulator.addNewGroupWithMember(groupNameEditText.getText().toString(), memberNameList, memberContactList);
-                } catch (IOException | XmlPullParserException e) {
-                    e.printStackTrace();
-                }
-
-                //Ouverture de la fenetre du groupe
-                Intent intent = new Intent(AddGroupActivity.this, GroupActivity.class);
-                intent.putExtra("groupName", groupNameEditText.getText().toString());
-                startActivity(intent);
-            }
-        });
 
         addNewMemberRepertory = (Button) findViewById(R.id.add_repertory_name1);
         addNewMemberRepertory.setOnClickListener(new View.OnClickListener() {
@@ -448,6 +385,89 @@ public class AddGroupActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_add_element, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_addMember) {
+            addGroup();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void addGroup()
+    {
+        //Verification du contenu du nom du groupe
+        Boolean emptyEditText = false;
+        if (groupNameEditText.getText().toString().matches(""))
+            emptyEditText = true;
+
+        //Verification du contenu des noms des membres pour ne pas qu'ils soient vides
+        for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
+            Integer editTextField = 0;
+            memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
+            for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
+                    String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                    if (str.equals(""))
+                        emptyEditText = true;
+                    editTextField++;
+                }
+            }
+        }
+
+        if (emptyEditText) {
+            Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //Récupération du nom et du numero des membres
+        ArrayList<String> memberNameList = new ArrayList<String>();
+        ArrayList<String> memberContactList = new ArrayList<String>();
+
+        for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
+            Integer editTextField = 0;
+            memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
+            for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
+                    String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                    memberNameList.add(str);
+                    editTextField++;
+                } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                    String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                    if (str.equals(""))
+                        str = "null";
+                    memberContactList.add(str);
+                }
+            }
+        }
+
+        //Modification du fichier XML
+        groupXMLManipulator = new XMLManipulator(getApplication());
+        try {
+            groupXMLManipulator.addNewGroupWithMember(groupNameEditText.getText().toString(), memberNameList, memberContactList);
+        } catch (IOException | XmlPullParserException e) {
+            e.printStackTrace();
+        }
+
+        //Ouverture de la fenetre du groupe
+        Intent intent = new Intent(AddGroupActivity.this, GroupActivity.class);
+        intent.putExtra("groupName", groupNameEditText.getText().toString());
+        startActivity(intent);
+
     }
 
 }

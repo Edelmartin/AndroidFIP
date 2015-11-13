@@ -118,16 +118,6 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ajouter le(s) membre(s)"
-                android:id="@+id/addNewMemberInGroup_button"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/textView6"
-                android:layout_alignEnd="@+id/textView6" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="Recherche Repertoire"
                 android:id="@+id/add_repertory_name" />
 

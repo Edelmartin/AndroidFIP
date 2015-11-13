@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_addMember" android:title="Ajouter le(s) membre(s)"
+        android:orderInCategory="1"
+        android:icon="@mipmap/ic_add"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -9,7 +9,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/transaction"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
@@ -40,6 +40,7 @@
         </activity>
         <activity
             android:name=".AddNewMemberInGroupActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_add_new_member_in_group"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

@@ -110,7 +110,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
                 for (int i=0 ; i < listMember.size() ; i++) {
 
                     //si le contact n'est pas vide, on envoi soit un message soit un email
-                    if (!contactList.get(i).toString().equals("null")) {
+                    if (!contactList.get(i).toString().equals("")) {
                         //si pas @ c'est un numéro
                         if (contactList.get(i).indexOf("@") <= -1) {
                             SendSMS sms = new SendSMS(contactList.get(i), message);

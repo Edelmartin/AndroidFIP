@@ -444,7 +444,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                 }
                 else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                     String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (!(isANumber(str) || isAMail(str))) {
+                    if (!(isANumber(str) || isAMail(str) || str.equals(""))) {
                         Toast.makeText(getApplication(), "Vous avez mal complété le contact d'un membre (numéro ou mail)", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -465,8 +465,6 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     editTextField++;
                 } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                     String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (str.equals(""))
-                        str = "null";
                     memberContactList.add(str);
                 }
             }

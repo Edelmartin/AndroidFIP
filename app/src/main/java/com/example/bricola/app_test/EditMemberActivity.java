@@ -88,7 +88,7 @@ public class EditMemberActivity extends AppCompatActivity {
     {
         //Verification du contenu des EditText qui ne doivent pas être vides ou mal complétées
         if( !MemberView.getText().toString().matches("") ) {
-            if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString())) {
+            if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString()) || ContactView.getText().toString().equals("")) {
 
                 //si l'un des 2 champs a été modifié
                 if (!MemberView.getText().toString().matches(initialMemberName) || !ContactView.getText().toString().matches(initialContact)) {

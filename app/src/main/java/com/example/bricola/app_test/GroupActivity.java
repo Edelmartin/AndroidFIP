@@ -9,20 +9,17 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -99,11 +96,12 @@ public class GroupActivity extends AppCompatActivity {
         memberNameListView = (ListView) findViewById(R.id.memberName_listView);
         ArrayAdapter<String> memberArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, memberNameList);
         memberNameListView.setAdapter(memberArrayAdapter);
+        memberNameListView.setOnItemClickListener(mMemberListListener);
 
         transactionNameListView = (ListView) findViewById(R.id.transactionName_listView);
         ArrayAdapter<String> transactionArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, transactionNameList);
         transactionNameListView.setAdapter(transactionArrayAdapter);
-
+        transactionNameListView.setOnItemClickListener(mTransactionListListener);
     }
 
     @Override
@@ -291,4 +289,22 @@ public class GroupActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mShakeDetector);
         super.onPause();
     }
+
+    private AdapterView.OnItemClickListener mMemberListListener
+            = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
+            String nomDuMembre = ((TextView) v).getText().toString();
+            Intent i = new Intent(GroupActivity.this, EditMemberActivity.class);
+            i.putExtra("memberName", nomDuMembre);
+            i.putExtra("groupName", groupName);
+            startActivity(i);
+        }
+    };
+
+    private AdapterView.OnItemClickListener mTransactionListListener
+            = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
+            String info = ((TextView) v).getText().toString();
+        }
+    };
 }

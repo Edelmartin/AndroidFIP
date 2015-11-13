@@ -10,4 +10,5 @@
     <string name="title_activity_delete_transaction">DeleteTransactionActivity</string>
     <string name="title_activity_balance_account">BalanceAccountActivity</string>
     <string name="title_activity_choix_numero">Choix_numero</string>
+    <string name="title_activity_edit_member">EditMemberActivity</string>
 </resources>

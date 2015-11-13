@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddGroupActivity extends AppCompatActivity {
 
@@ -422,9 +424,18 @@ public class AddGroupActivity extends AppCompatActivity {
             for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
                 if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
                     String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (str.equals(""))
-                        emptyEditText = true;
+                    if (str.equals("")) {
+                        Toast.makeText(getApplication(), "Vous n'avez pas complété le nom du groupe ou d'un membre", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     editTextField++;
+                }
+                else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                    String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                    if (!(isANumber(str) || isAMail(str))) {
+                        Toast.makeText(getApplication(), "Vous avez mal complété le contact d'un membre (numéro ou mail)", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             }
         }
@@ -468,6 +479,28 @@ public class AddGroupActivity extends AppCompatActivity {
         intent.putExtra("groupName", groupNameEditText.getText().toString());
         startActivity(intent);
 
+    }
+
+    Boolean isANumber (String str)
+    {
+        if (str.length() != 10)
+            return false;
+        Boolean isOk = true;
+        for (int i = 0 ; i < 10 ; i++)
+        {
+            char c = str.charAt(i);
+            if (!(c >= '0' && c <= '9'))
+                isOk = false;
+        }
+        return isOk;
+    }
+
+    Boolean isAMail (String str)
+    {
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
     }
 
 }

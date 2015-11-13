@@ -147,9 +147,9 @@ public class GroupActivity extends AppCompatActivity {
                 demandefermeture.setTitle("Suppression du groupe");
                 // set dialog message
                 demandefermeture
-                        .setMessage("Click Yes to delete")
+                        .setMessage("Voulez-vous vraiment supprimer le groupe \"" + groupName + "\" ?")
                         .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
@@ -159,7 +159,7 @@ public class GroupActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Non", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, just close
                         // the dialog box and do nothing

@@ -47,49 +47,25 @@ public class BalanceAccountActivity extends AppCompatActivity {
         for (int i = 0 ; i < donatorNamesList.size() ; i++ )
         {
             LinearLayout linearLayoutHor = new LinearLayout(this);
-            linearLayoutHor.setOrientation(LinearLayout.HORIZONTAL);
+            linearLayoutHor.setOrientation(LinearLayout.VERTICAL);
             linearLayoutHor.setPadding(0, 15, 0, 15);
             linearLayoutHor.setGravity(Gravity.CENTER);
 
             //Nom du donateur
             TextView debtorNameTextView = new TextView(this);
-            debtorNameTextView.setText(donatorNamesList.get(i));
+            debtorNameTextView.setText(donatorNamesList.get(i) + " doit à");
             debtorNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             debtorNameTextView.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(debtorNameTextView);
-            message=message+donatorNamesList.get(i);
+            message=message+donatorNamesList.get(i)+" doit payer à ";
 
-            //Fleche
-            TextView arrow = new TextView(this);
-            arrow.setText(" doit à ");
-            arrow.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-            arrow.setTextColor(Color.parseColor("#000000"));
-            linearLayoutHor.addView(arrow);
-            message=message+" doit à ";
-
-            //Nom du receveur
+            //Nom du receveur et la somme due
             TextView creditorNameTextView = new TextView(this);
-            creditorNameTextView.setText(receiverNamesList.get(i));
+            creditorNameTextView.setText(receiverNamesList.get(i) + " : " + valuesList.get(i) + " €");
             creditorNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             creditorNameTextView.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(creditorNameTextView);
-            message=message+receiverNamesList.get(i);
-
-            //Double point
-            TextView colon = new TextView(this);
-            colon.setText("\t:\t");
-            colon.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-            colon.setTextColor(Color.parseColor("#000000"));
-            linearLayoutHor.addView(colon);
-            message=message+"\t:\t";
-
-            //Valeur à transférer
-            TextView valueTextView = new TextView(this);
-            valueTextView.setText(valuesList.get(i) + " €");
-            valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-            valueTextView.setTextColor(Color.parseColor("#000000"));
-            linearLayoutHor.addView(valueTextView);
-            message=message+valuesList.get(i) + " €\n";
+            message=message+receiverNamesList.get(i)+ " : " + valuesList.get(i) + " €";
 
             linearLayoutVert.addView(linearLayoutHor);
 

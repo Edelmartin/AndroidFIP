@@ -413,15 +413,21 @@ public class AddGroupActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_addMember) {
-            addGroup();
+            try {
+                addGroup();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void addGroup()
-    {
+    private void addGroup() throws IOException, XmlPullParserException {
         //Verification du contenu du nom du groupe
         Boolean emptyEditText = false;
+        Boolean verification_doublon = false;
         if (groupNameEditText.getText().toString().matches(""))
         {
             Toast.makeText(getApplication(), "Vous n'avez pas complété le nom du groupe", Toast.LENGTH_SHORT).show();
@@ -472,16 +478,34 @@ public class AddGroupActivity extends AppCompatActivity {
 
         //Modification du fichier XML
         groupXMLManipulator = new XMLManipulator(getApplication());
-        try {
-            groupXMLManipulator.addNewGroupWithMember(groupNameEditText.getText().toString(), memberNameList, memberContactList);
-        } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-        }
 
-        //Ouverture de la fenetre du groupe
-        Intent intent = new Intent(AddGroupActivity.this, GroupActivity.class);
-        intent.putExtra("groupName", groupNameEditText.getText().toString());
-        startActivity(intent);
+        ArrayList<String> XMLGroupList = new ArrayList<String>();
+        XMLGroupList = groupXMLManipulator.getListGroup();
+
+
+            for (int j = 0; j < XMLGroupList.size(); j++) {
+                if (XMLGroupList.get(j).toString().toUpperCase().equals(groupNameEditText.getText().toString().toUpperCase())){
+                    Toast toast = Toast.makeText(getApplication(), groupNameEditText.getText().toString() + " déjà existant ! Veuillez saisir un nom de groupe différent." , Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+                    LinearLayout toastLayout = (LinearLayout) toast.getView();
+                    TextView toastTV = (TextView) toastLayout.getChildAt(0);
+                    toastTV.setTextSize(16);
+                    toast.show();
+                    verification_doublon = true ;
+                }
+            }
+
+        if (verification_doublon == false) {
+            try {
+                groupXMLManipulator.addNewGroupWithMember(groupNameEditText.getText().toString(), memberNameList, memberContactList);
+            } catch (IOException | XmlPullParserException e) {
+                e.printStackTrace();
+            }
+            //Ouverture de la fenetre du groupe
+            Intent intent = new Intent(AddGroupActivity.this, GroupActivity.class);
+            intent.putExtra("groupName", groupNameEditText.getText().toString());
+            startActivity(intent);
+        }
 
     }
 

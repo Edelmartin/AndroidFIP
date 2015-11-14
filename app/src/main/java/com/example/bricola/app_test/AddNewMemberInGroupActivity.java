@@ -427,8 +427,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addMemberInGroup ()
-    {
+    private void addMemberInGroup () {
         //Verification du contenu des noms des membres pour ne pas qu'ils soient vides
         for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
             Integer editTextField = 0;
@@ -441,8 +440,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                         return;
                     }
                     editTextField++;
-                }
-                else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                     String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
                     if (!(isANumber(str) || isAMail(str) || str.equals(""))) {
                         Toast.makeText(getApplication(), "Vous avez mal complété le contact d'un membre (numéro ou mail)", Toast.LENGTH_SHORT).show();
@@ -471,6 +469,27 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         }
 
         groupXMLManipulator = new XMLManipulator(getApplicationContext());
+
+        ArrayList<String> memberXMLNameList = new ArrayList<String>();
+        memberXMLNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
+
+        ArrayList<String> tutu = new ArrayList<String>();
+
+        for (int j = 0; j < memberXMLNameList.size(); j++) {
+            for (int i = 0; i < memberNameList.size(); i++) {
+                if ((memberXMLNameList.get(j).toString().toUpperCase().equals(memberNameList.get(i).toString().toUpperCase()))) {
+                    Toast.makeText(getApplication(), memberNameList.get(i).toString() + " est déjà membre du groupe", Toast.LENGTH_SHORT).show();
+                    tutu.add(memberNameList.get(i));
+                }
+            }
+        }
+
+        //int value ;Integer.parseInt(string);
+        for (int k = 0; k < tutu.size(); k++)
+        {
+            memberNameList.remove(tutu.get(k));
+        }
+
         for (int i = 0; i < memberNameList.size(); i++) {
             groupXMLManipulator.addNewMemberInGroup(groupName, memberNameList.get(i), memberContactList.get(i));
         }

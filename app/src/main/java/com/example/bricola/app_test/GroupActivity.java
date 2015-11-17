@@ -304,7 +304,11 @@ public class GroupActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener mTransactionListListener
             = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
-            String info = ((TextView) v).getText().toString();
+            String nomTransaction = ((TextView) v).getText().toString();
+            Intent i = new Intent(GroupActivity.this, EditTransactionActivity.class);
+            i.putExtra("transactionName", nomTransaction);
+            i.putExtra("groupName", groupName);
+            startActivity(i);
         }
     };
 }

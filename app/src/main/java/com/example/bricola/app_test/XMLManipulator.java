@@ -348,8 +348,9 @@ public class XMLManipulator {
             Node memberNodeValueAttribute = memberNodeAttributes.getNamedItem("value");
             memberNodeValueAttribute.setTextContent(newTransaction.getValue().toString());
             //Modification de la date
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             Node memberNodeDateAttribute = memberNodeAttributes.getNamedItem("date");
-            memberNodeDateAttribute.setTextContent(newTransaction.getDate().toString());
+            memberNodeDateAttribute.setTextContent(df.format(newTransaction.getDate()));
 
             //Enregistrement des modifications
             saveGroupXMLFileModifications(fXmlFile, doc);

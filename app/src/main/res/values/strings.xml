@@ -11,4 +11,5 @@
     <string name="title_activity_balance_account">BalanceAccountActivity</string>
     <string name="title_activity_choix_numero">Choix_numero</string>
     <string name="title_activity_edit_member">EditMemberActivity</string>
+    <string name="title_activity_edit_transaction">EditTransactionActivity</string>
 </resources>

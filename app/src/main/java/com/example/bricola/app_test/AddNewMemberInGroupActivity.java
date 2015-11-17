@@ -133,7 +133,11 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     newMemberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                     newMemberDetailsLinearLayout.addView(newMemberNameEditText);
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(150, 150);
+                    int pixelsValue = 50; // margin in pixels
+                    float d = getApplicationContext().getResources().getDisplayMetrics().density;
+                    int margin = (int)(pixelsValue * d);
+
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(margin, margin);
                     layoutParams.gravity = Gravity.RIGHT;
                     ImageView newImageContact = new ImageView(getApplication());
                     newImageContact.setImageResource(R.mipmap.no_contact);
@@ -342,6 +346,8 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
     }
 
     public void remplissage_ajout_repertoire(String str, String contactName, Bitmap member_contact_photo, long id_de_la_photo) {
+        Boolean premier_linear_vide = false;
+
         if (memberNameList1.contains(contactName)) {
             contactName = "";
             str = "";
@@ -376,22 +382,25 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
             Integer editTextField = 0;
             memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
-            for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
-                if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
-                    String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (test1.equals("")) {
-                        ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
-                        if (id_de_la_photo != 0) {
-                            ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageBitmap(member_contact_photo);
-                        } else {
-                            ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageResource(R.mipmap.no_contact);
+            if (premier_linear_vide == false) {
+                for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                    if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
+                        String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                        if (test1.equals("")) {
+                            ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
+                            premier_linear_vide = true;
+                            if (id_de_la_photo != 0) {
+                                ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageBitmap(member_contact_photo);
+                            } else {
+                                ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageResource(R.mipmap.no_contact);
+                            }
                         }
+                        editTextField++;
+                    } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                        String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                        if (test2.equals(""))
+                            ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
                     }
-                    editTextField++;
-                } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
-                    String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (test2.equals(""))
-                        ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
                 }
             }
         }
@@ -418,8 +427,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addMemberInGroup ()
-    {
+    private void addMemberInGroup () {
         //Verification du contenu des noms des membres pour ne pas qu'ils soient vides
         for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
             Integer editTextField = 0;
@@ -432,10 +440,9 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                         return;
                     }
                     editTextField++;
-                }
-                else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                     String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (!(isANumber(str) || isAMail(str))) {
+                    if (!(isANumber(str) || isAMail(str) || str.equals(""))) {
                         Toast.makeText(getApplication(), "Vous avez mal complété le contact d'un membre (numéro ou mail)", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -456,14 +463,33 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     editTextField++;
                 } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                     String str = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                    if (str.equals(""))
-                        str = "null";
                     memberContactList.add(str);
                 }
             }
         }
 
         groupXMLManipulator = new XMLManipulator(getApplicationContext());
+
+        ArrayList<String> memberXMLNameList = new ArrayList<String>();
+        memberXMLNameList = groupXMLManipulator.getListMemberOfGroup(groupName);
+
+        ArrayList<String> tutu = new ArrayList<String>();
+
+        for (int j = 0; j < memberXMLNameList.size(); j++) {
+            for (int i = 0; i < memberNameList.size(); i++) {
+                if ((memberXMLNameList.get(j).toString().toUpperCase().equals(memberNameList.get(i).toString().toUpperCase()))) {
+                    Toast.makeText(getApplication(), memberNameList.get(i).toString() + " est déjà membre du groupe", Toast.LENGTH_SHORT).show();
+                    tutu.add(memberNameList.get(i));
+                }
+            }
+        }
+
+        //int value ;Integer.parseInt(string);
+        for (int k = 0; k < tutu.size(); k++)
+        {
+            memberNameList.remove(tutu.get(k));
+        }
+
         for (int i = 0; i < memberNameList.size(); i++) {
             groupXMLManipulator.addNewMemberInGroup(groupName, memberNameList.get(i), memberContactList.get(i));
         }

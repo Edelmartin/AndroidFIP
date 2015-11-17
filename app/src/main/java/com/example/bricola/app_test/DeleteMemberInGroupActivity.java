@@ -49,19 +49,15 @@ public class DeleteMemberInGroupActivity extends AppCompatActivity {
         deleteMemberInGroupButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //Verification du contenu des EditText qui ne doivent pas être vides
-                //Verification a faire sur le Spinner
-                /*RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.contentAddNewMemberInGroup);
-                for (int i = 0; i < mRlayout.getChildCount(); i++)
-                    if (mRlayout.getChildAt(i) instanceof EditText) {
-                        EditText myEditText = (EditText) mRlayout.getChildAt(i);
-                        if (myEditText.getText().toString().matches("")) {
-                            Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    */
+                //Suppression des Transaction du Member
+                ArrayList<Transaction> transactionListOfMember = new ArrayList<Transaction>();
+                transactionListOfMember = groupXMLManipulator.getListTransactionOfMember(groupName, memberNameSpinner.getSelectedItem().toString());
+                for (Transaction transaction: transactionListOfMember)
+                {
+                    groupXMLManipulator.deleteTransaction(groupName, transaction.getName());
+                }
 
+                //Suppression du Member
                 groupXMLManipulator.deleteMemberOfGroup(groupName,memberNameSpinner.getSelectedItem().toString());
 
                 //Retour a la fenetre du group en envoyant le nom du nouveau membrer en extra

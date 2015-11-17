@@ -11,6 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+
 public class EditMemberActivity extends AppCompatActivity {
     private static String memberName,groupName;
     private static String initialMemberName,initialContact;
@@ -59,7 +65,7 @@ public class EditMemberActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_element, menu);
+        getMenuInflater().inflate(R.menu.menu_save_change, menu);
         return true;
     }
 
@@ -71,7 +77,7 @@ public class EditMemberActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_addMember) {
+        if (id == R.id.action_saveChange) {
             modifyMember();
         }
         return super.onOptionsItemSelected(item);
@@ -79,33 +85,40 @@ public class EditMemberActivity extends AppCompatActivity {
 
     public void modifyMember ()
     {
-        //Verification du contenu des EditText qui ne doivent pas être vides
-        if( !MemberView.getText().toString().matches("") && !ContactView.getText().toString().matches("") ) {
-            //si l'un des 2 champs a été modifié
-            if (!MemberView.getText().toString().matches(initialMemberName) || !ContactView.getText().toString().matches(initialContact)) {
+        //Verification du contenu des EditText qui ne doivent pas être vides ou mal complétées
+        if( !MemberView.getText().toString().matches("") ) {
+            if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString()) || ContactView.getText().toString().equals("")) {
 
-                XMLManipulator xmlmanip = new XMLManipulator(EditMemberActivity.this);
+                //si l'un des 2 champs a été modifié
+                if (!MemberView.getText().toString().matches(initialMemberName) || !ContactView.getText().toString().matches(initialContact)) {
 
-                //si le nom du membre a changé
-                if (!MemberView.getText().toString().matches(initialMemberName)) {
-                    xmlmanip.modifyMemberName(groupName, initialMemberName, MemberView.getText().toString());
-                    //il faut réaffcecter le nom correct a toutes les transactions
-                    transactionList = xmlmanip.getListTransactionOfMember(groupName,initialMemberName);
-                    for(Transaction transaction: transactionList)
-                        xmlmanip.modifyTransactionOwner(groupName,transaction.getName(),MemberView.getText().toString());
+                    XMLManipulator xmlmanip = new XMLManipulator(EditMemberActivity.this);
+
+                    //si le nom du membre a changé
+                    if (!MemberView.getText().toString().matches(initialMemberName)) {
+                        xmlmanip.modifyMemberName(groupName, initialMemberName, MemberView.getText().toString());
+                        //il faut réaffcecter le nom correct a toutes les transactions
+                        transactionList = xmlmanip.getListTransactionOfMember(groupName, initialMemberName);
+                        for (Transaction transaction : transactionList)
+                            xmlmanip.modifyTransactionOwner(groupName, transaction.getName(), MemberView.getText().toString());
+                    }
+                    //si le contact a changés
+                    if (!ContactView.getText().toString().matches(initialContact)) {
+                        xmlmanip.modifyMemberContact(groupName, MemberView.getText().toString(), ContactView.getText().toString());
+                    }
+                    Toast.makeText(getApplication(), "Membre modifié", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplication(), "Aucune modification apportée", Toast.LENGTH_SHORT).show();
                 }
-                //si le contact a changés
-                if (!ContactView.getText().toString().matches(initialContact)) {
-                    xmlmanip.modifyMemberContact(groupName, MemberView.getText().toString(), ContactView.getText().toString());
-                }
-                Toast.makeText(getApplication(), "Membre modifié", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(getApplication(), "Aucune modification apportée", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getApplication(), "Vous avez mal complété le contact d'un membre (numéro ou mail)", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
         else{
-            Toast.makeText(getApplication(), "Vous avez mal compléter une zone de texte", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), "Vous n'avez pas complété le nom du membre", Toast.LENGTH_SHORT).show();
             return;
         }
         //Retour a la fenetre du group en envoyant le nom du nouveau membrer en extra
@@ -114,5 +127,26 @@ public class EditMemberActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    Boolean isANumber (String str)
+    {
+        if (str.length() != 10)
+            return false;
+        Boolean isOk = true;
+        for (int i = 0 ; i < 10 ; i++)
+        {
+            char c = str.charAt(i);
+            if (!(c >= '0' && c <= '9'))
+                isOk = false;
+        }
+        return isOk;
+    }
+
+    Boolean isAMail (String str)
+    {
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
+    }
 
 }

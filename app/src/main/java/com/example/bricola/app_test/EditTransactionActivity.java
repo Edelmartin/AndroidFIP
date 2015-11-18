@@ -95,7 +95,7 @@ public class EditTransactionActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_element, menu);
+        getMenuInflater().inflate(R.menu.menu_save_change, menu);
         return true;
     }
 
@@ -107,7 +107,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_addMember) {
+        if (id == R.id.action_saveChange) {
             modifyTransaction();
         }
         return super.onOptionsItemSelected(item);

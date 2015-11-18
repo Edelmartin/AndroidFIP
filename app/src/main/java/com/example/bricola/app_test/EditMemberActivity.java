@@ -86,8 +86,8 @@ public class EditMemberActivity extends AppCompatActivity {
     public void modifyMember ()
     {
         //Verification du contenu des EditText qui ne doivent pas être vides ou mal complétées
-        if( !MemberView.getText().toString().matches("") ) {
-            if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString()) || ContactView.getText().toString().equals("")) {
+        if( !MemberView.getText().toString().matches("") && !ContactView.getText().toString().matches("") ) {
+            if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString())) {
 
                 //si l'un des 2 champs a été modifié
                 if (!MemberView.getText().toString().matches(initialMemberName) || !ContactView.getText().toString().matches(initialContact)) {
@@ -129,14 +129,15 @@ public class EditMemberActivity extends AppCompatActivity {
 
     Boolean isANumber (String str)
     {
-        if (str.length() != 10)
+        if (str.length() < 10 && str.length() > 13 )
             return false;
         Boolean isOk = true;
         for (int i = 0 ; i < 10 ; i++)
         {
             char c = str.charAt(i);
-            if (!(c >= '0' && c <= '9'))
+            if (!(c >= '0' && c <= '9')) {
                 isOk = false;
+            }
         }
         return isOk;
     }

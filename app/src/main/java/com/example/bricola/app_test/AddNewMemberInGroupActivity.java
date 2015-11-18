@@ -503,7 +503,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
 
     Boolean isANumber (String str)
     {
-        if (str.length() != 10)
+        if (str.length() < 10 && str.length() > 13)
             return false;
         Boolean isOk = true;
         for (int i = 0 ; i < 10 ; i++)

@@ -9,82 +9,94 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_edit_transacion"
     tools:context="com.example.bricola.app_test.EditMemberActivity">
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textColor="#000000"
-        android:text="Attributs modifiables de la transaction:"
-        android:id="@+id/textView18"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:paddingBottom="10dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:nestedScrollingEnabled="false"
+                android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:text="Attributs modifiables de la transaction:"
+                android:id="@+id/textView18"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:paddingBottom="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Nom de la transaction :"
-        android:layout_below="@+id/textView18"
-        android:id="@+id/textView1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Nom de la transaction :"
+                android:layout_below="@+id/textView18"
+                android:id="@+id/textView1" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/TrasactionName_editText"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
-        android:layout_alignParentEnd="true"
-        android:password="false" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/TrasactionName_editText"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView1"
+                android:layout_alignParentEnd="true"
+                android:password="false" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Nom du propriétaire :"
-        android:layout_below="@+id/TrasactionName_editText"
-        android:id="@+id/textView2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Nom du propriétaire :"
+                android:layout_below="@+id/TrasactionName_editText"
+                android:id="@+id/textView2" />
 
-    <Spinner
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/transactionOwner_spinner"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/transactionOwner_spinner"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Valeur de la transaction:"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/transactionOwner_spinner" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Valeur de la transaction:"
+                android:id="@+id/textView3"
+                android:layout_below="@+id/transactionOwner_spinner" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/TransactionValue_editText"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentEnd="true"
-        android:password="false" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/TransactionValue_editText"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentEnd="true"
+                android:password="false" />
 
-    <DatePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/transaction_datePicker"
-        android:textColor="#000000"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/TransactionValue_editText"
-        android:datePickerMode="spinner"
-        android:calendarViewShown="false" />
-
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/transaction_datePicker"
+                android:textColor="#000000"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/TransactionValue_editText"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false" />
+            </LinearLayout>
+        </ScrollView>
 </RelativeLayout>

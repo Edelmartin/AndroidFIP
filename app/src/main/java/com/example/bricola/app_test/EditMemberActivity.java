@@ -86,8 +86,11 @@ public class EditMemberActivity extends AppCompatActivity {
     public void modifyMember ()
     {
         //Verification du contenu des EditText qui ne doivent pas être vides ou mal complétées
-        if( !MemberView.getText().toString().matches("") && !ContactView.getText().toString().matches("") ) {
-            if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString())) {
+        if( !MemberView.getText().toString().matches("")) {
+            if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString()) || ContactView.getText().toString().equals("")) {
+
+                //if( !MemberView.getText().toString().matches("") && !ContactView.getText().toString().matches("") ) {
+          //  if (isANumber(ContactView.getText().toString()) || isAMail(ContactView.getText().toString())) {
 
                 //si l'un des 2 champs a été modifié
                 if (!MemberView.getText().toString().matches(initialMemberName) || !ContactView.getText().toString().matches(initialContact)) {
@@ -97,7 +100,7 @@ public class EditMemberActivity extends AppCompatActivity {
                     //si le nom du membre a changé
                     if (!MemberView.getText().toString().matches(initialMemberName)) {
                         xmlmanip.modifyMemberName(groupName, initialMemberName, MemberView.getText().toString());
-                        //il faut réaffcecter le nom correct a toutes les transactions
+                        //il faut réaffecter le nom correct a toutes les transactions
                         transactionList = xmlmanip.getListTransactionOfMember(groupName, initialMemberName);
                         for (Transaction transaction : transactionList)
                             xmlmanip.modifyTransactionOwner(groupName, transaction.getName(), MemberView.getText().toString());
@@ -128,8 +131,8 @@ public class EditMemberActivity extends AppCompatActivity {
     }
 
     Boolean isANumber (String str)
-    {
-        if (str.length() < 10 && str.length() > 13 )
+    {if(str.length() != 10)
+        //if (str.length() < 10 && str.length() > 13 )
             return false;
         Boolean isOk = true;
         for (int i = 0 ; i < 10 ; i++)

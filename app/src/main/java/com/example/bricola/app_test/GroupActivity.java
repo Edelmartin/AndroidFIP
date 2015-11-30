@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -232,10 +233,12 @@ public class GroupActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent(GroupActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
     //called method for shake event
     private void handleShakeEvent(int count) {
         MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.money);
@@ -361,7 +364,7 @@ public class GroupActivity extends AppCompatActivity {
                             tv.setText("Swiped!");
                             return true;
                         }
-                        else*/ if (deltaX < -1 * (v.getWidth() / 3)) // swipe to left
+                        else*/ if ((deltaX < -1 * (v.getWidth() / 3)) || ((deltaX > v.getWidth() / 3)))// swipe to left
                     {
 
                         v.setEnabled(false); // need to disable the view for the animation to run
@@ -405,17 +408,30 @@ public class GroupActivity extends AppCompatActivity {
                                                         mSwiping = false;
                                                         mItemPressed = false;
                                                         animateRemoval(lv, v);
+                                                        //finish();
+                                                        //startActivity(getIntent());
+                                                        Intent intent = getIntent();
+                                                        overridePendingTransition(0, 0);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                                         finish();
-                                                        startActivity(getIntent());
+                                                        overridePendingTransition(0, 0);
+                                                        startActivity(intent);
                                                     }
                                                 })
                                                 .setNegativeButton("Non", new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int id) {
                                                         // if this button is clicked, just close
                                                         // the dialog box and do nothing
+                                                        //dialog.cancel();
+                                                        //finish();
+                                                        //startActivity(getIntent());
                                                         dialog.cancel();
+                                                        Intent intent = getIntent();
+                                                        overridePendingTransition(0, 0);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                                         finish();
-                                                        startActivity(getIntent());
+                                                        overridePendingTransition(0, 0);
+                                                        startActivity(intent);
                                                     }
                                                 });
                                         AlertDialog alertDialog = demandefermeture.create();
@@ -515,7 +531,7 @@ public class GroupActivity extends AppCompatActivity {
                     {
                         v.setTranslationX((x - mDownX)); // moves the view as long as the user is swiping and has not already swiped
 
-                        if (deltaX < -1 * (v.getWidth() / 3)) // swipe to left
+                        if ((deltaX < -1 * (v.getWidth() / 3)) || ((deltaX > v.getWidth() / 3)))// swipe to left
                         {
 
                             v.setEnabled(false); // need to disable the view for the animation to run
@@ -556,8 +572,14 @@ public class GroupActivity extends AppCompatActivity {
                                                             // if this button is clicked, just close
                                                             // the dialog box and do nothing
                                                             dialog.cancel();
-                                                            finish();
+                                                            //finish();
                                                             startActivity(getIntent());
+                                                            Intent intent = getIntent();
+                                                            overridePendingTransition(0, 0);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                            finish();
+                                                            overridePendingTransition(0, 0);
+                                                            startActivity(intent);
                                                         }
                                                     });
                                             AlertDialog alertDialog = demandefermeture.create();
@@ -755,6 +777,8 @@ public class GroupActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 
 

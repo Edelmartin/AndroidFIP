@@ -337,7 +337,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
                 // TODO Auto-generated method stub
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    Toast.makeText(getApplicationContext(), "You Choose : Close Alert Dialog ", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "You Choose : Close Alert Dialog ", Toast.LENGTH_LONG).show();
                 }
                 return true;
             }
@@ -522,5 +522,6 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }
+
 }
 

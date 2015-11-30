@@ -45,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+   /* @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
@@ -53,5 +53,5 @@ public class SettingsActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 }

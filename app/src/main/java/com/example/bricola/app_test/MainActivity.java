@@ -1,6 +1,8 @@
 package com.example.bricola.app_test;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.hardware.Sensor;
@@ -8,15 +10,19 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Xml;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -62,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // ShakeDetector initialization
+
+       /* // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
@@ -73,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
 				 * The following method, "handleShakeEvent(count):" is a stub //
 				 * method you would use to setup whatever you want done once the
 				 * device has been shook.
-				 */
+
                 handleShakeEvent(count);
             }
-        });
+        });*/
         this.setTitle("Partage de frais");
 
        //Création du fichier group.xml si le fichier n'existe pas
@@ -109,9 +116,13 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 Intent intent = new Intent(MainActivity.this, GroupActivity.class);
+                intent.addFlags(//Intent.FLAG_ACTIVITY_NEW_TASK
+                       // | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                         Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 String groupName = (String) parent.getItemAtPosition(position);
                 intent.putExtra("groupName" , groupName);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -142,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    //called method for shake event
+   /* //called method for shake event
     private void handleShakeEvent(int count) {
         MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.money);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -169,5 +180,33 @@ public class MainActivity extends AppCompatActivity {
         // Add the following line to unregister the Sensor Manager onPause
         mSensorManager.unregisterListener(mShakeDetector);
         super.onPause();
+    }*/
+
+    @Override
+    public void onBackPressed() {
+
+        //TextView title = new TextView(this);
+        //title.setText("Quitter l'application");
+        //title.setGravity(Gravity.CENTER);
+        //title.setTextColor(0xFF00FF00);
+        //title.setTextSize(23);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Quitter l'application");
+        builder.setMessage("Voulez-vous vraiment quitter l'application ?");
+        builder.setPositiveButton("Quitter", new DialogInterface.OnClickListener() {
+            @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Annuler", null);
+                AlertDialog dialog = builder.show();
+
+        TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
+        messageView.setGravity(Gravity.CENTER);
     }
+
+
 }
+

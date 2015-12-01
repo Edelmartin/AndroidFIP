@@ -138,7 +138,7 @@ public class GroupActivity extends AppCompatActivity {
                 intent = new Intent(GroupActivity.this, AddNewTransactionActivity.class);
                 intent.putExtra("groupName",groupName);
                 startActivity(intent);
-                finish();
+                //finish();
                 break;
             case R.id.action_addMember:
                 intent = new Intent(GroupActivity.this, AddNewMemberInGroupActivity.class);
@@ -150,13 +150,13 @@ public class GroupActivity extends AppCompatActivity {
                 intent = new Intent(GroupActivity.this, DeleteTransactionActivity.class);
                 intent.putExtra("groupName",groupName);
                 startActivity(intent);
-                finish();
+                //finish();
                 break;
             case R.id.action_deleteMember:
                 intent = new Intent(GroupActivity.this, DeleteMemberInGroupActivity.class);
                 intent.putExtra("groupName",groupName);
                 startActivity(intent);
-                finish();
+                //finish();
                 break;
             case R.id.action_deleteGroup:
 
@@ -227,7 +227,6 @@ public class GroupActivity extends AppCompatActivity {
                 intent.putStringArrayListExtra("donatorNames", refundDonatorName);
                 intent.putStringArrayListExtra("values", refundValue);
                 startActivity(intent);
-                finish();
                 break;
 
         }
@@ -293,7 +292,6 @@ public class GroupActivity extends AppCompatActivity {
                 intent.putStringArrayListExtra("donatorNames", refundDonatorName);
                 intent.putStringArrayListExtra("values", refundValue);
                 startActivity(intent);
-                finish();
             }
 
         });

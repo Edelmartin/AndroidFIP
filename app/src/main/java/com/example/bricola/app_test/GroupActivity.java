@@ -142,6 +142,7 @@ public class GroupActivity extends AppCompatActivity {
                 intent = new Intent(GroupActivity.this, AddNewMemberInGroupActivity.class);
                 intent.putExtra("groupName",groupName);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.action_deleteTransaction:
                 intent = new Intent(GroupActivity.this, DeleteTransactionActivity.class);
@@ -410,12 +411,6 @@ public class GroupActivity extends AppCompatActivity {
                                                         animateRemoval(lv, v);
                                                         //finish();
                                                         //startActivity(getIntent());
-                                                        Intent intent = getIntent();
-                                                        overridePendingTransition(0, 0);
-                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                        finish();
-                                                        overridePendingTransition(0, 0);
-                                                        startActivity(intent);
                                                     }
                                                 })
                                                 .setNegativeButton("Non", new DialogInterface.OnClickListener() {

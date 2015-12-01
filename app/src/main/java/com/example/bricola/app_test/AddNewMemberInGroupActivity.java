@@ -321,6 +321,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                         remplissage_ajout_repertoire(numero_portable.get(selectedPosition), contact_name, photo_contact, id_de_la_photo);
                         //imageviewcontact = (ImageView) findViewById(R.id.img_contacts);
                         // imageviewcontact.setImageBitmap(photo_contact);
+                        //AddNewMemberInGroupActivity.this.finishActivity(PICK_CONTACT);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -332,16 +333,16 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
+       // alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            //@Override
+           // public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
                 // TODO Auto-generated method stub
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
+             //   if (keyCode == KeyEvent.KEYCODE_BACK) {
                     //Toast.makeText(getApplicationContext(), "You Choose : Close Alert Dialog ", Toast.LENGTH_LONG).show();
-                }
-                return true;
-            }
-        });
+              //  }
+               // return true;
+           // }
+       // });
         //onKeyDown()
     }
 
@@ -498,6 +499,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         Intent intent = new Intent(AddNewMemberInGroupActivity.this, GroupActivity.class);
         intent.putExtra("groupName", groupName);
         startActivity(intent);
+        finish();
 
     }
 
@@ -521,6 +523,14 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddNewMemberInGroupActivity.this, GroupActivity.class);
+        intent.putExtra("groupName" , groupName);
+        startActivity(intent);
+        finish();
     }
 
 }

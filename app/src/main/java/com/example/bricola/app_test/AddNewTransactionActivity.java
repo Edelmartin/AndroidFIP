@@ -117,6 +117,7 @@ public class AddNewTransactionActivity extends AppCompatActivity {
         Intent intent = new Intent(AddNewTransactionActivity.this, GroupActivity.class);
         intent.putExtra("groupName", groupName);
         startActivity(intent);
+        finish();
     }
 
     public String checkDigit(int number)

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App_test</string>
+    <string name="app_name">Partage de frais</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_add_group">AddGroupActivity</string>
@@ -12,4 +12,5 @@
     <string name="title_activity_choix_numero">Choix_numero</string>
     <string name="title_activity_edit_member">EditMemberActivity</string>
     <string name="title_activity_edit_transaction">EditTransactionActivity</string>
+    <string name="title_activity_delete_group">DeleteGroupActivity</string>
 </resources>

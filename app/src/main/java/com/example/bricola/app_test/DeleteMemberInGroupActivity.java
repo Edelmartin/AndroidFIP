@@ -64,6 +64,7 @@ public class DeleteMemberInGroupActivity extends AppCompatActivity {
                 Intent intent = new Intent(DeleteMemberInGroupActivity.this, GroupActivity.class);
                 intent.putExtra("groupName", groupName);
                 startActivity(intent);
+                finish();
             }
         });
     }

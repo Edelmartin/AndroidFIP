@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_addGroup) {
             Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
             startActivity(intent);
+            finish();
         }
         else if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);

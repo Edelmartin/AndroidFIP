@@ -128,6 +128,7 @@ public class EditMemberActivity extends AppCompatActivity {
         Intent intent = new Intent(EditMemberActivity.this, GroupActivity.class);
         intent.putExtra("groupName", groupName);
         startActivity(intent);
+        finish();
     }
 
     Boolean isANumber (String str)
@@ -151,6 +152,14 @@ public class EditMemberActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditMemberActivity.this, GroupActivity.class);
+        intent.putExtra("groupName" , groupName);
+        startActivity(intent);
+        finish();
     }
 
 }

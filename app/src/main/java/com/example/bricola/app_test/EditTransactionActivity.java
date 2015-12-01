@@ -167,6 +167,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         Intent intent = new Intent(EditTransactionActivity.this, GroupActivity.class);
         intent.putExtra("groupName", groupName);
         startActivity(intent);
+        finish();
     }
 
     public static Calendar DateToCalendar(Date date )
@@ -191,4 +192,11 @@ public class EditTransactionActivity extends AppCompatActivity {
         return number<=9?"0"+number:String.valueOf(number);
         }
 
-        }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditTransactionActivity.this, GroupActivity.class);
+        intent.putExtra("groupName" , groupName);
+        startActivity(intent);
+        finish();
+    }
+}

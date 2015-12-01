@@ -71,6 +71,7 @@ public class DeleteTransactionActivity extends AppCompatActivity {
                 Intent intent = new Intent(DeleteTransactionActivity.this, GroupActivity.class);
                 intent.putExtra("groupName", groupName);
                 startActivity(intent);
+                finish();
             }
         });
     }

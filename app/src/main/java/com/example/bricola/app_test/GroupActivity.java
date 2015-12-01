@@ -77,7 +77,8 @@ public class GroupActivity extends AppCompatActivity {
 				 * method you would use to setup whatever you want done once the
 				 * device has been shook.
 				 */
-                handleShakeEvent(count);
+                if (count ==1)
+                    handleShakeEvent(count);
             }
         });
 
@@ -137,6 +138,7 @@ public class GroupActivity extends AppCompatActivity {
                 intent = new Intent(GroupActivity.this, AddNewTransactionActivity.class);
                 intent.putExtra("groupName",groupName);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.action_addMember:
                 intent = new Intent(GroupActivity.this, AddNewMemberInGroupActivity.class);
@@ -148,11 +150,13 @@ public class GroupActivity extends AppCompatActivity {
                 intent = new Intent(GroupActivity.this, DeleteTransactionActivity.class);
                 intent.putExtra("groupName",groupName);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.action_deleteMember:
                 intent = new Intent(GroupActivity.this, DeleteMemberInGroupActivity.class);
                 intent.putExtra("groupName",groupName);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.action_deleteGroup:
 
@@ -171,6 +175,7 @@ public class GroupActivity extends AppCompatActivity {
                                 groupXMLManipulator.deleteGroup(groupName);
                                 Intent intent = new Intent(GroupActivity.this, MainActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
                         })
                 .setNegativeButton("Non", new DialogInterface.OnClickListener() {
@@ -222,6 +227,7 @@ public class GroupActivity extends AppCompatActivity {
                 intent.putStringArrayListExtra("donatorNames", refundDonatorName);
                 intent.putStringArrayListExtra("values", refundValue);
                 startActivity(intent);
+                finish();
                 break;
 
         }
@@ -287,6 +293,7 @@ public class GroupActivity extends AppCompatActivity {
                 intent.putStringArrayListExtra("donatorNames", refundDonatorName);
                 intent.putStringArrayListExtra("values", refundValue);
                 startActivity(intent);
+                finish();
             }
 
         });
@@ -312,6 +319,7 @@ public class GroupActivity extends AppCompatActivity {
         float mDownX;
         private int mSwipeSlop = -1;
         boolean swiped;
+        Integer counter_member = 0;
 
         @Override
         public boolean onTouch(final View v, MotionEvent event) {
@@ -352,9 +360,25 @@ public class GroupActivity extends AppCompatActivity {
                     {
                         v.setTranslationX((x - mDownX)); // moves the view as long as the user is swiping and has not already swiped
 
-                       /* if (deltaX > v.getWidth() / 3) // swipe to right
+                        if (deltaX > v.getWidth() / 3) // swipe to right
                         {
-                            mDownX = x;
+                            if (counter_member == 0) {
+                                mItemPressed = false;
+                                lv.setEnabled(true);
+
+                                int i = lv.getPositionForView(v);
+
+                                //Toast.makeText(GroupActivity.this, memberNameList.get(i).toString(), Toast.LENGTH_LONG).show();
+                                String nomDuMembre = memberNameList.get(i).toString();
+                                Intent p = new Intent(GroupActivity.this, EditMemberActivity.class);
+                                p.putExtra("memberName", nomDuMembre);
+                                p.putExtra("groupName", groupName);
+                                startActivity(p);
+                                counter_member=1;
+                                finish();
+                                return false;
+                            }
+                            /*mDownX = x;
                             swiped = true;
                             mSwiping = false;
                             mItemPressed = false;
@@ -363,9 +387,9 @@ public class GroupActivity extends AppCompatActivity {
                             v.animate().setDuration(300).translationX(v.getWidth()/3); // could pause here if you want, same way as delete
                             TextView tv = (TextView) v.findViewById(R.id.list_tv);
                             tv.setText("Swiped!");
-                            return true;
+                            return true;*/
                         }
-                        else*/ if ((deltaX < -1 * (v.getWidth() / 3)) || ((deltaX > v.getWidth() / 3)))// swipe to left
+                        else if ((deltaX < -1 * (v.getWidth() / 3)) )// swipe to left
                     {
 
                         v.setEnabled(false); // need to disable the view for the animation to run
@@ -409,6 +433,14 @@ public class GroupActivity extends AppCompatActivity {
                                                         mSwiping = false;
                                                         mItemPressed = false;
                                                         animateRemoval(lv, v);
+
+                                                        startActivity(getIntent());
+                                                        Intent intent = getIntent();
+                                                        overridePendingTransition(0, 0);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                        finish();
+                                                        overridePendingTransition(0, 0);
+                                                        startActivity(intent);
                                                         //finish();
                                                         //startActivity(getIntent());
                                                     }
@@ -471,6 +503,7 @@ public class GroupActivity extends AppCompatActivity {
                         k.putExtra("memberName", nomDuMembre);
                         k.putExtra("groupName", groupName);
                         startActivity(k);
+                        finish();
                         return false;
                     }
                 }
@@ -486,6 +519,7 @@ public class GroupActivity extends AppCompatActivity {
         float mDownX;
         private int mSwipeSlop = -1;
         boolean swiped;
+        Integer counter = 0;
 
         @Override
         public boolean onTouch(final View v, MotionEvent event) {
@@ -526,7 +560,26 @@ public class GroupActivity extends AppCompatActivity {
                     {
                         v.setTranslationX((x - mDownX)); // moves the view as long as the user is swiping and has not already swiped
 
-                        if ((deltaX < -1 * (v.getWidth() / 3)) || ((deltaX > v.getWidth() / 3)))// swipe to left
+                        if (deltaX > v.getWidth() / 3) // swipe to right
+                        {
+                            if (counter == 0) {
+                                mItemPressed = false;
+                                lv1.setEnabled(true);
+
+                                int i = lv1.getPositionForView(v);
+
+                                //Toast.makeText(GroupActivity.this, transactionNameList.get(i).toString(), Toast.LENGTH_LONG).show();
+                                String nomTransaction = (transactionNameList.get(i).toString());
+                                Intent a = new Intent(GroupActivity.this, EditTransactionActivity.class);
+                                a.putExtra("transactionName", nomTransaction);
+                                a.putExtra("groupName", groupName);
+                                startActivity(a);
+                                finish();
+                                counter = 1;
+                                return false;
+                            }
+                        }
+                        else if ((deltaX < -1 * (v.getWidth() / 3)))// swipe to left
                         {
 
                             v.setEnabled(false); // need to disable the view for the animation to run
@@ -560,6 +613,14 @@ public class GroupActivity extends AppCompatActivity {
                                                             mSwiping = false;
                                                             mItemPressed = false;
                                                             animateRemoval1(lv1, v);
+
+                                                            startActivity(getIntent());
+                                                            Intent intent = getIntent();
+                                                            overridePendingTransition(0, 0);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                            finish();
+                                                            overridePendingTransition(0, 0);
+                                                            startActivity(intent);
                                                         }
                                                     })
                                                     .setNegativeButton("Non", new DialogInterface.OnClickListener() {
@@ -619,6 +680,7 @@ public class GroupActivity extends AppCompatActivity {
                         u.putExtra("transactionName", nomTransaction);
                         u.putExtra("groupName", groupName);
                         startActivity(u);
+                        finish();
                         return false;
                     }
                 }

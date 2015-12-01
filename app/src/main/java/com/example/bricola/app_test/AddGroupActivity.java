@@ -505,6 +505,7 @@ public class AddGroupActivity extends AppCompatActivity {
             Intent intent = new Intent(AddGroupActivity.this, GroupActivity.class);
             intent.putExtra("groupName", groupNameEditText.getText().toString());
             startActivity(intent);
+            finish();
         }
 
     }
@@ -529,6 +530,13 @@ public class AddGroupActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddGroupActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

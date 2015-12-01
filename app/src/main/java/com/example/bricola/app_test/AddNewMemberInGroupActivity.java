@@ -62,9 +62,9 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
     private static XMLManipulator groupXMLManipulator;
     private LinearLayout newMemberLinearLayout = null;
     private LinearLayout memberDetailsLinearLayout = null;
-
-    ArrayList<String> memberNameList1 = new ArrayList<String>();
-    ArrayList<String> memberNumberList1 = new ArrayList<String>();
+    private int filled = 0;
+    private boolean isEmpty = false;
+    private boolean numeroModifié = false;
     ArrayList<Bitmap> memberphoto = new ArrayList<>();
 
     @Override
@@ -108,10 +108,32 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         addNewMemberRepertory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);//Contacts.People.CONTENT_URI); // creates the contact list intent
-                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-                startActivityForResult(intent, PICK_CONTACT);
+                filled=0;
+                isEmpty = false;
+                for(int i=0;i<newMemberLinearLayout.getChildCount();i++){
+                    View v = newMemberLinearLayout.getChildAt(i);
+                    //si on tombe sur un linear layout name number
+                    if(v instanceof LinearLayout){
+                        //on vérifie que les 2 edit text sont remplis
+                        View v2 = ((LinearLayout) v).getChildAt(1);
+                        View v3 = ((LinearLayout) v).getChildAt(4);
+                        if (((EditText) v2).getText().toString().equals("") && ((EditText) v3).getText().toString().equals("")) {
+                            isEmpty=true;
+                        } else {
+                            filled++;
+                        }
+                    }
+                }
+                if(isEmpty) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);//Contacts.People.CONTENT_URI); // creates the contact list intent
+                    intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                    startActivityForResult(intent, PICK_CONTACT);
+                }
+                if(filled == newMemberLinearLayout.getChildCount()) {
+                    Toast.makeText(AddNewMemberInGroupActivity.this, "Aucun champ vide pour ajouter le contact cliquez d'abord sur +", Toast.LENGTH_LONG).show();
+                }
             }
+
         });
 
         addNewMemberButton = (Button) findViewById(R.id.addNewMember_button);
@@ -347,64 +369,103 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
     }
 
     public void remplissage_ajout_repertoire(String str, String contactName, Bitmap member_contact_photo, long id_de_la_photo) {
+        ArrayList<String> memberNameList1 = new ArrayList<String>();
+        ArrayList<String> memberNumberList1 = new ArrayList<String>();
         Boolean premier_linear_vide = false;
+        final String copieContactName = contactName;
+        final String copieContactNumber = str;
+        numeroModifié = false;
+        //récupération de la valeur des champs nom et numero de telephone de chaque membre a ajouter
+        for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
+            Integer editTextFieldNumber = 0;
+            memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
+            for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextFieldNumber == 0) ){
+                    //si le champ n'est pas vide
+                    if(!((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString().equals("")) {
+                        memberNameList1.add(((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString());
+                        editTextFieldNumber++;
+                    }
+                }
 
-        if (memberNameList1.contains(contactName)) {
-            contactName = "";
+                else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextFieldNumber == 1)){
+                    //si le champ n'est pas vide
+                    if(!((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString().equals(""))
+                    memberNumberList1.add( ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString());
+                }
+            }
+        }
+
+        //si le membre existe deja
+        if (!memberNameList1.contains(contactName) && memberNumberList1.contains(str) || memberNameList1.contains(contactName) && memberNumberList1.contains(str)) {
             str = "";
-            id_de_la_photo = 0;
-            memberNumberList1.add(str);
-            memberNameList1.add(contactName);
-            Toast toast = Toast.makeText(getApplicationContext(), "Contact déjà sélectionné ", Toast.LENGTH_SHORT);
+            contactName = "";
+            Toast toast = Toast.makeText(getApplicationContext(), "Le moyen de contact est le même que celui d'un autre contact ", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
             LinearLayout toastLayout = (LinearLayout) toast.getView();
             TextView toastTV = (TextView) toastLayout.getChildAt(0);
             toastTV.setTextSize(18);
             toast.show();
         }
-       /* else if (memberNumberList1.contains(str))
-        {
-            contactName = "";
-            str = "";
-            memberNumberList1.add(str);
-            memberNameList1.add(contactName);
-            Toast toast = Toast.makeText(getApplicationContext(), "Deux contact ont le même numéro " , Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-            LinearLayout toastLayout = (LinearLayout) toast.getView();
-            TextView toastTV = (TextView) toastLayout.getChildAt(0);
-            toastTV.setTextSize(15);
-            toast.show();
-        }*/
+        //si le contact existe deja et que le numero a changé
+        else if (memberNameList1.contains(contactName) && !memberNumberList1.contains(str)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Numéro à mettre à jour");
+            builder.setMessage("Voulez-vous mettre à jour le numéro du contact?");
+            builder.setPositiveButton("Remplacer", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    numeroModifié = true;
+                    for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
+                        memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
+                        for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                            if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText)) {
+                                String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                                if (test1.equals(copieContactName)) {
+                                    EditText numAchanger = null;
+                                    numAchanger = (EditText) memberDetailsLinearLayout.getChildAt(j + 3);
+                                    numAchanger.setText(copieContactNumber);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            builder.setNegativeButton("Annuler", null);
+            AlertDialog dialog = builder.show();
+            TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
+            messageView.setGravity(Gravity.CENTER);
+        }
         else {
             memberNumberList1.add(str);
             memberNameList1.add(contactName);
-        }
-
-        for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
-            Integer editTextField = 0;
-            memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
-            if (premier_linear_vide == false) {
-                for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
-                    if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
-                        String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                        if (test1.equals("")) {
-                            ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
-                            premier_linear_vide = true;
-                            if (id_de_la_photo != 0) {
-                                ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageBitmap(member_contact_photo);
-                            } else {
-                                ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageResource(R.mipmap.no_contact);
+            for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
+                Integer editTextField = 0;
+                memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
+                if (premier_linear_vide == false) {
+                    for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
+                        if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 0)) {
+                            String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                            if (test1.equals("")) {
+                                ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
+                                premier_linear_vide = true;
+                                if (id_de_la_photo != 0) {
+                                    ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageBitmap(member_contact_photo);
+                                } else {
+                                    ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageResource(R.mipmap.no_contact);
+                                }
                             }
+                            editTextField++;
+                        } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
+                            String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
+                            if (test2.equals("") )
+                                ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
                         }
-                        editTextField++;
-                    } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
-                        String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                        if (test2.equals(""))
-                            ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
                     }
                 }
             }
         }
+
     }
 
     @Override

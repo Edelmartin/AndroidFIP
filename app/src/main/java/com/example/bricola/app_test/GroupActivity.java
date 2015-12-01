@@ -135,10 +135,15 @@ public class GroupActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_addTransaction:
-                intent = new Intent(GroupActivity.this, AddNewTransactionActivity.class);
-                intent.putExtra("groupName",groupName);
-                startActivity(intent);
-                //finish();
+                if (memberNameList.size() != 0)
+                {
+                    intent = new Intent(GroupActivity.this, AddNewTransactionActivity.class);
+                    intent.putExtra("groupName",groupName);
+                    startActivity(intent);
+                    //finish();
+                }
+                else
+                    Toast.makeText(getApplication(), "Veuillez avant tout rajouter un membre au groupe", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_addMember:
                 intent = new Intent(GroupActivity.this, AddNewMemberInGroupActivity.class);
@@ -147,16 +152,26 @@ public class GroupActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.action_deleteTransaction:
-                intent = new Intent(GroupActivity.this, DeleteTransactionActivity.class);
-                intent.putExtra("groupName",groupName);
-                startActivity(intent);
-                //finish();
+                if (transactionList.size() != 0)
+                {
+                    intent = new Intent(GroupActivity.this, DeleteTransactionActivity.class);
+                    intent.putExtra("groupName",groupName);
+                    startActivity(intent);
+                    //finish();
+                }
+                else
+                    Toast.makeText(getApplication(), "Il n'y a pas de transaction à supprimer", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_deleteMember:
-                intent = new Intent(GroupActivity.this, DeleteMemberInGroupActivity.class);
-                intent.putExtra("groupName",groupName);
-                startActivity(intent);
-                //finish();
+                if (memberNameList.size() != 0)
+                {
+                    intent = new Intent(GroupActivity.this, DeleteMemberInGroupActivity.class);
+                    intent.putExtra("groupName",groupName);
+                    startActivity(intent);
+                    //finish();
+                }
+                else
+                    Toast.makeText(getApplication(), "Il n'y a pas de membre à supprimer", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_deleteGroup:
 

@@ -306,7 +306,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                 .setSingleChoiceItems(myList, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        Toast.makeText(getApplicationContext(), "You Choose : " + myList[arg1], Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Vous avez sélectionné : " + myList[arg1], Toast.LENGTH_LONG).show();
                     }
                 })
                         // Set the action buttons
@@ -324,7 +324,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                         //AddNewMemberInGroupActivity.this.finishActivity(PICK_CONTACT);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

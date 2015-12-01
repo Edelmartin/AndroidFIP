@@ -296,7 +296,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 .setSingleChoiceItems(myList, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        Toast.makeText(getApplicationContext(), "You Choose : " + myList[arg1], Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Vous avez sélectionné : " + myList[arg1], Toast.LENGTH_LONG).show();
                     }
                 })
                         // Set the action buttons
@@ -313,7 +313,7 @@ public class AddGroupActivity extends AppCompatActivity {
                         // imageviewcontact.setImageBitmap(photo_contact);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -322,7 +322,7 @@ public class AddGroupActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+        /*alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
                 // TODO Auto-generated method stub
@@ -332,7 +332,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 return true;
             }
         });
-        //onKeyDown()
+        //onKeyDown()*/
     }
 
     public void remplissage_ajout_repertoire(String str, String contactName, Bitmap member_contact_photo, long id_de_la_photo)

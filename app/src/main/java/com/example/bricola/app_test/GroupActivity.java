@@ -140,7 +140,7 @@ public class GroupActivity extends AppCompatActivity {
                     intent = new Intent(GroupActivity.this, AddNewTransactionActivity.class);
                     intent.putExtra("groupName",groupName);
                     startActivity(intent);
-                    //finish();
+                    finish();
                 }
                 else
                     Toast.makeText(getApplication(), "Veuillez avant tout rajouter un membre au groupe", Toast.LENGTH_SHORT).show();
@@ -157,7 +157,7 @@ public class GroupActivity extends AppCompatActivity {
                     intent = new Intent(GroupActivity.this, DeleteTransactionActivity.class);
                     intent.putExtra("groupName",groupName);
                     startActivity(intent);
-                    //finish();
+                    finish();
                 }
                 else
                     Toast.makeText(getApplication(), "Il n'y a pas de transaction à supprimer", Toast.LENGTH_SHORT).show();
@@ -168,7 +168,7 @@ public class GroupActivity extends AppCompatActivity {
                     intent = new Intent(GroupActivity.this, DeleteMemberInGroupActivity.class);
                     intent.putExtra("groupName",groupName);
                     startActivity(intent);
-                    //finish();
+                    finish();
                 }
                 else
                     Toast.makeText(getApplication(), "Il n'y a pas de membre à supprimer", Toast.LENGTH_SHORT).show();

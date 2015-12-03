@@ -22,7 +22,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
     private static ArrayList<String> valuesList = new ArrayList<String>();
     private static String groupName;
     private static LinearLayout linearLayoutVert;
-    private static Button messageSender;
+    private static LinearLayout buttonLinearLayout;
     public String message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,12 @@ public class BalanceAccountActivity extends AppCompatActivity {
 
         }
 
-        messageSender = (Button) findViewById(R.id.MessageSender);
+        /*messageSender = (Button) findViewById(R.id.MessageSender);
         messageSender.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {*/
+
+        buttonLinearLayout = (LinearLayout) findViewById(R.id.button_linearLayout);
+        buttonLinearLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 //Récupération de la liste des numéros:

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/list_tv"
-        android:textColor="#050505"
+        android:textColor="#6E6E6E"
         android:textSize="18dp"
         android:gravity="center_vertical" />
 

@@ -242,6 +242,7 @@ public class GroupActivity extends AppCompatActivity {
                 intent.putStringArrayListExtra("donatorNames", refundDonatorName);
                 intent.putStringArrayListExtra("values", refundValue);
                 startActivity(intent);
+                finish();
                 break;
 
         }
@@ -307,6 +308,7 @@ public class GroupActivity extends AppCompatActivity {
                 intent.putStringArrayListExtra("donatorNames", refundDonatorName);
                 intent.putStringArrayListExtra("values", refundValue);
                 startActivity(intent);
+                finish();
             }
 
         });
@@ -454,7 +456,7 @@ public class GroupActivity extends AppCompatActivity {
                                                         finish();
                                                         overridePendingTransition(0, 0);
                                                         startActivity(intent);
-                                                        //finish();
+                                                        finish();
                                                         //startActivity(getIntent());
                                                     }
                                                 })
@@ -472,6 +474,7 @@ public class GroupActivity extends AppCompatActivity {
                                                         finish();
                                                         overridePendingTransition(0, 0);
                                                         startActivity(intent);
+                                                        finish();
                                                     }
                                                 });
                                         AlertDialog alertDialog = demandefermeture.create();
@@ -634,6 +637,7 @@ public class GroupActivity extends AppCompatActivity {
                                                             finish();
                                                             overridePendingTransition(0, 0);
                                                             startActivity(intent);
+                                                            finish();
                                                         }
                                                     })
                                                     .setNegativeButton("Non", new DialogInterface.OnClickListener() {
@@ -649,6 +653,7 @@ public class GroupActivity extends AppCompatActivity {
                                                             finish();
                                                             overridePendingTransition(0, 0);
                                                             startActivity(intent);
+                                                            finish();
                                                         }
                                                     });
                                             AlertDialog alertDialog = demandefermeture.create();

@@ -2,7 +2,6 @@ package com.example.bricola.app_test;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.DialogInterface;
@@ -18,9 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +69,7 @@ public class AddGroupActivity extends AppCompatActivity {
 
         newMemberLinearLayout = (LinearLayout) findViewById(R.id.newMember_linearLayout);
 
-        memberNameEditText = (EditText) findViewById(R.id.memberName_editText);
+        memberNameEditText = (EditText) findViewById(R.id.memberGroupe_editText);
         newMemberLinearLayout = (LinearLayout) findViewById(R.id.newMember_linearLayout);
 
         memberNumberEditText = (EditText) findViewById(R.id.memberNumber_editText);

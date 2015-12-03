@@ -37,7 +37,7 @@ public class EditMemberActivity extends AppCompatActivity {
 
         this.setTitle("Membre");
 
-        MemberView = (EditText) findViewById(R.id.memberName_editText);
+        MemberView = (EditText) findViewById(R.id.memberGroupe_editText);
         ContactView = (EditText) findViewById(R.id.memberContact_editText);
 
         //Récupération de la liste des numéros

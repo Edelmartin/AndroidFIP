@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:ems="10"
-                        android:id="@+id/memberName_editText"
+                        android:id="@+id/memberGroupe_editText"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/textView14"
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="+"
                     android:id="@+id/addNewMember_button"
-                    android:layout_below="@+id/memberName_editText"
+                    android:layout_below="@+id/memberGroupe_editText"
                     android:layout_alignParentStart="true" />
 
                 <Button
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="-"
                     android:id="@+id/deleteMember_button"
-                    android:layout_below="@+id/memberName_editText"
+                    android:layout_below="@+id/memberGroupe_editText"
                     android:layout_alignParentStart="true"
                     android:enabled="false" />
 

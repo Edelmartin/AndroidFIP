@@ -230,7 +230,29 @@ public class MainActivity extends AppCompatActivity {
                     {
                         v.setTranslationX((x - mDownX)); // moves the view as long as the user is swiping and has not already swiped
 
-                        if ((deltaX < -1 * (v.getWidth() / 3)) )// swipe to left
+
+
+                        if (deltaX > v.getWidth() / 3) // swipe to right
+                        {
+                            if (counter_member == 0) {
+                                mItemPressed = false;
+                                lv.setEnabled(true);
+
+                                int i = lv.getPositionForView(v);
+
+                                Intent intent = new Intent(MainActivity.this, edit_groupe_name.class);
+                                intent.addFlags(//Intent.FLAG_ACTIVITY_NEW_TASK
+                                        // | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                String nomDuGroupe = groupNameList.get(i).toString();
+                                intent.putExtra("groupName", nomDuGroupe);
+                                startActivity(intent);
+                                counter_member=1;
+                                finish();
+                                return false;
+                            }
+                        }
+                        else if ((deltaX < -1 * (v.getWidth() / 3)) )// swipe to left
                         {
 
                             v.setEnabled(false); // need to disable the view for the animation to run

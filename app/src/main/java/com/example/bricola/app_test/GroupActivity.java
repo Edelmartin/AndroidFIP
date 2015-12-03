@@ -82,22 +82,6 @@ public class GroupActivity extends AppCompatActivity {
             }
         });
 
-        if (getIntent().hasExtra("newTransactionName")) {
-            String newTransactionName = extras.getString("newTransactionName");
-            String newTransactionOwner = extras.getString("newTransactionOwner");
-            Double newTransactionValue = Double.parseDouble(extras.getString("newTransactionValue"));
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            Date newTransactionDate = null;
-            try {
-                newTransactionDate = df.parse(extras.getString("newTransactionDate"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Transaction newTransaction = new Transaction(newTransactionName, newTransactionOwner, newTransactionValue, newTransactionDate);
-            groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
-            groupXMLManipulator.addNewTransaction(groupName, newTransaction);
-        }
-
         //Récupération de la list des member du group
         groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
         memberNameList = groupXMLManipulator.getListMemberOfGroup(groupName);

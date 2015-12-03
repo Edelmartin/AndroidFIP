@@ -72,7 +72,7 @@ public class edit_groupe_name extends AppCompatActivity {
                         xmlmanip.modifyGroupName(initialGroupName,GroupeView.getText().toString());
                                 //groupName, MemberView.getText().toString(), ContactView.getText().toString());
                     }
-                    Toast.makeText(getApplication(), "Membre modifié", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "Groupe modifié", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplication(), "Aucune modification apportée", Toast.LENGTH_SHORT).show();

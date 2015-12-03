@@ -82,9 +82,15 @@ public class edit_groupe_name extends AppCompatActivity {
             Toast.makeText(getApplication(), "Vous n'avez pas complété le nom du membre", Toast.LENGTH_SHORT).show();
             return;
         }
-        //Retour a la fenetre du group en envoyant le nom du nouveau membrer en extra
+        //Retour a la fenetre du group
         Intent intent = new Intent(edit_groupe_name.this, MainActivity.class);
-        intent.putExtra("groupName", groupName);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(edit_groupe_name.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

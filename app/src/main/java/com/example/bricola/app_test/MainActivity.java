@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -124,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });*/
+
+        Collections.sort(groupNameList, String.CASE_INSENSITIVE_ORDER);
 
         lv = (ListView) findViewById(R.id.groupName_listView);
         StringAdapter adapter = new StringAdapter(MainActivity.this, groupNameList, mTouchListener);
@@ -295,8 +298,8 @@ public class MainActivity extends AppCompatActivity {
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                                             finish();
                                                             overridePendingTransition(0, 0);
-                                                            startActivity(intent);
-                                                            //finish();
+                                                            //startActivity(intent);
+                                                            finish();
                                                             //startActivity(getIntent());
                                                         }
                                                     })
@@ -314,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
                                                             finish();
                                                             overridePendingTransition(0, 0);
                                                             startActivity(intent);
+                                                            finish();
                                                         }
                                                     });
                                             AlertDialog alertDialog = demandefermeture.create();

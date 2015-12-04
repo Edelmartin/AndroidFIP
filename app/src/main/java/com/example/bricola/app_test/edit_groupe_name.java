@@ -28,11 +28,11 @@ public class edit_groupe_name extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         groupName = extras.getString("groupName");
 
-        this.setTitle(groupName);
+        this.setTitle("Groupe");
 
         GroupeView = (EditText) findViewById(R.id.memberGroupe_editText);
 
-        //initialise le chmap nom du membre
+        //initialise le chmap nom du groupe
         initialGroupName = groupName;
         GroupeView.setText(initialGroupName);
     }

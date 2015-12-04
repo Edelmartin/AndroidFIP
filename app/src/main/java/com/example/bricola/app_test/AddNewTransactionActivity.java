@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class AddNewTransactionActivity extends AppCompatActivity {
@@ -55,6 +56,7 @@ public class AddNewTransactionActivity extends AppCompatActivity {
 
         groupXMLManipulator = new XMLManipulator(this.getApplicationContext());
         listOfMember = groupXMLManipulator.getListMemberOfGroup(groupName);
+        Collections.sort(listOfMember, String.CASE_INSENSITIVE_ORDER);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, listOfMember);
         transactionOwnerSpinner.setAdapter(adapter);
         findViewById(R.id.transactionName_editText).requestFocus();
@@ -125,4 +127,11 @@ public class AddNewTransactionActivity extends AppCompatActivity {
         return number<=9?"0"+number:String.valueOf(number);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddNewTransactionActivity.this, GroupActivity.class);
+        intent.putExtra("groupName" , groupName);
+        startActivity(intent);
+        finish();
+    }
 }

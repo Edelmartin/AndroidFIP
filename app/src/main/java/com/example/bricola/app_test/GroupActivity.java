@@ -29,8 +29,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class GroupActivity extends AppCompatActivity {
 
@@ -92,6 +94,9 @@ public class GroupActivity extends AppCompatActivity {
         transactionNameList.clear();
         for (Transaction transaction: transactionList)
             transactionNameList.add(transaction.getName());
+
+        Collections.sort(transactionNameList, String.CASE_INSENSITIVE_ORDER);
+        Collections.sort(memberNameList, String.CASE_INSENSITIVE_ORDER);
 
         lv = (ListView) findViewById(R.id.memberName_listView);
         StringAdapter adapter = new StringAdapter(GroupActivity.this, memberNameList, mTouchListener);

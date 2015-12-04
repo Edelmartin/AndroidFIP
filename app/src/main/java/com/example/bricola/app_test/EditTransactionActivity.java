@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 public class EditTransactionActivity extends AppCompatActivity {
@@ -67,6 +68,7 @@ public class EditTransactionActivity extends AppCompatActivity {
                 initial=listTransaction.get(i);//on initialise les autres edit text
                 initial.setOwner(listTransaction.get(i).getOwner().toString());
                 listOfMember = xmlmanip.getListMemberOfGroup(groupName);
+                Collections.sort(listOfMember, String.CASE_INSENSITIVE_ORDER);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, listOfMember);
                 transactionOwnerSpinner.setAdapter(adapter);
                 for(i=0; i < adapter.getCount(); i++){

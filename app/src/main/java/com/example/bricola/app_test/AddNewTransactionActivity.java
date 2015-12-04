@@ -88,15 +88,11 @@ public class AddNewTransactionActivity extends AppCompatActivity {
     {
         //Verification du contenu des EditText qui ne doivent pas être vides
         //Verification du spinner à faire
-        RelativeLayout mRlayout = (RelativeLayout) findViewById(R.id.contentAddNewMember);
-        for (int i = 0; i < mRlayout.getChildCount(); i++)
-            if (mRlayout.getChildAt(i) instanceof EditText) {
-                EditText myEditText = (EditText) mRlayout.getChildAt(i);
-                if (myEditText.getText().toString().matches("")) {
-                    Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
+        if(transactionNameEditText.getText().toString().matches("") || transactionValueEditText.getText().toString().matches("")  )
+        {
+            Toast.makeText(getApplication(), "Vous avez mal completer une zone de texte", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Transaction newTransaction = null;
         String transactionName = transactionNameEditText.getText().toString();

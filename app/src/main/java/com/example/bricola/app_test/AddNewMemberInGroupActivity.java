@@ -72,7 +72,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.setFocusable(true);
-                memberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                memberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
                 v.setFocusableInTouchMode(true);
                 return false;
             }

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,7 @@ public class AddNewTransactionActivity extends AppCompatActivity {
         this.setTitle(groupName);
 
         transactionNameEditText = (EditText) findViewById(R.id.transactionName_editText);
+        transactionNameEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         transactionOwnerSpinner = (Spinner) findViewById(R.id.transactionOwner_spinner);
         transactionValueEditText = (EditText) findViewById(R.id.transactionValue_editText);

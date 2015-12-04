@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -65,11 +66,12 @@ public class AddGroupActivity extends AppCompatActivity {
         this.setTitle("Ajout d'un nouveau groupe");
 
         groupNameEditText = (EditText) findViewById(R.id.groupName_editText);
-        groupNameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        groupNameEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         newMemberLinearLayout = (LinearLayout) findViewById(R.id.newMember_linearLayout);
 
         memberNameEditText = (EditText) findViewById(R.id.memberGroupe_editText);
+        memberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         newMemberLinearLayout = (LinearLayout) findViewById(R.id.newMember_linearLayout);
 
         memberNumberEditText = (EditText) findViewById(R.id.memberNumber_editText);

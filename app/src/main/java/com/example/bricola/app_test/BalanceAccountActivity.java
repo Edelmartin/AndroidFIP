@@ -65,7 +65,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
             creditorNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
             creditorNameTextView.setTextColor(Color.parseColor("#000000"));
             linearLayoutHor.addView(creditorNameTextView);
-            message=message+receiverNamesList.get(i)+ " : " + valuesList.get(i) + " €";
+            message=message+receiverNamesList.get(i)+ " : " + valuesList.get(i) + " €\n";
 
             linearLayoutVert.addView(linearLayoutHor);
 

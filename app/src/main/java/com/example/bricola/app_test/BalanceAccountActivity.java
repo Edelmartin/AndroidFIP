@@ -50,7 +50,7 @@ public class BalanceAccountActivity extends AppCompatActivity {
                 + "Vous trouverez ci dessous les comptes calculés automatiquement à l'aide de l'application \"Partage de frais\" : \n"
                 + "Groupe : " + groupName + "\n";
 
-        this.setTitle(groupName);
+        this.setTitle("Comptes");//groupName);
 
         linearLayoutVert = (LinearLayout) findViewById(R.id.vertical_linearLayout);
         Integer textSize = 18;

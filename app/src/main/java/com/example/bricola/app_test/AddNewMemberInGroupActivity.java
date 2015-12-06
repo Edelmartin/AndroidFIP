@@ -137,7 +137,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                     newMemberDetailsLinearLayout.addView(newMemberNameTextView);
 
                     EditText newMemberNameEditText = (EditText) getLayoutInflater().inflate(R.layout.newedittextstyle, null);
-                    newMemberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                    newMemberNameEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
                     newMemberDetailsLinearLayout.addView(newMemberNameEditText);
 
                     int pixelsValue = 50; // margin in pixels
@@ -385,7 +385,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
         if (!memberNameList1.contains(contactName) && memberNumberList1.contains(str) || memberNameList1.contains(contactName) && memberNumberList1.contains(str)) {
             str = "";
             contactName = "";
-            Toast toast = Toast.makeText(getApplicationContext(), "Le moyen de contact est le même que celui d'un autre contact ", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), "Le nom de contact est le même que celui d'un autre contact ", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
             LinearLayout toastLayout = (LinearLayout) toast.getView();
             TextView toastTV = (TextView) toastLayout.getChildAt(0);
@@ -426,6 +426,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
             memberNameList1.add(contactName);
             for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
                 Integer editTextField = 0;
+                Integer test_count = 0;
                 memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
                 if (premier_linear_vide == false) {
                     for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
@@ -433,6 +434,10 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                             String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
                             if (test1.equals("")) {
                                 ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
+                                if (test_count == 0)
+                                {
+                                    test_count = test_count + 1;
+                                }
                                 premier_linear_vide = true;
                                 if (id_de_la_photo != 0) {
                                     ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageBitmap(member_contact_photo);
@@ -443,7 +448,7 @@ public class AddNewMemberInGroupActivity extends AppCompatActivity {
                             editTextField++;
                         } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                             String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                            if (test2.equals("") )
+                            if ((test2.equals("")) && (test_count == 1))
                                 ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
                         }
                     }

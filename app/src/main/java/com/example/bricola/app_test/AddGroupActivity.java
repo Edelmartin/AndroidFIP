@@ -430,6 +430,7 @@ public class AddGroupActivity extends AppCompatActivity {
             memberNameListForControl.add(contactName);
             for (int i = 0; i < newMemberLinearLayout.getChildCount(); i++) {
                 Integer editTextField = 0;
+                Integer test_count = 0;
                 memberDetailsLinearLayout = (LinearLayout) newMemberLinearLayout.getChildAt(i);
                 if (premier_linear_vide == false) {
                     for (int j = 0; j < memberDetailsLinearLayout.getChildCount(); j++) {
@@ -437,6 +438,10 @@ public class AddGroupActivity extends AppCompatActivity {
                             String test1 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
                             if (test1.equals("")) {
                                 ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(contactName);
+                                if (test_count == 0)
+                                {
+                                    test_count = test_count + 1;
+                                }
                                 premier_linear_vide = true;
                                 if (id_de_la_photo != 0) {
                                     ((ImageView) memberDetailsLinearLayout.getChildAt(j + 1)).setImageBitmap(member_contact_photo);
@@ -447,7 +452,7 @@ public class AddGroupActivity extends AppCompatActivity {
                             editTextField++;
                         } else if ((memberDetailsLinearLayout.getChildAt(j) instanceof EditText) && (editTextField == 1)) {
                             String test2 = ((EditText) memberDetailsLinearLayout.getChildAt(j)).getText().toString();
-                            if (test2.equals("") )
+                            if ((test2.equals("")) && (test_count == 1) )
                                 ((EditText) memberDetailsLinearLayout.getChildAt(j)).setText(str);
                         }
                     }

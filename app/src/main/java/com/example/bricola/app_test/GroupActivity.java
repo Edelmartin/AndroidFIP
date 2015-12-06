@@ -619,7 +619,7 @@ public class GroupActivity extends AppCompatActivity {
                                                             mItemPressed = false;
                                                             animateRemoval1(lv1, v);
 
-                                                            startActivity(getIntent());
+                                                            //startActivity(getIntent());
                                                             Intent intent = getIntent();
                                                             overridePendingTransition(0, 0);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -635,7 +635,7 @@ public class GroupActivity extends AppCompatActivity {
                                                             // the dialog box and do nothing
                                                             dialog.cancel();
                                                             //finish();
-                                                            startActivity(getIntent());
+                                                            //startActivity(getIntent());
                                                             Intent intent = getIntent();
                                                             overridePendingTransition(0, 0);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
